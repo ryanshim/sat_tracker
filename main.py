@@ -23,7 +23,7 @@ import time
 import numpy as np
 from state_vectors import get_SV
 from spaceTrackScrape import getTleData
-#from azimuthElevation import getAzEl
+from azimuthElevation import getAzEl
 from plot_position import plot_body
 
 def main():
