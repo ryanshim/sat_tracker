@@ -8,45 +8,48 @@ Utilizes pyephem and sgp4 packages to calculate object position
 
 TODO:
     - Use space-track api to collect TLE data
+    - Make azimuth elevation program
+    - Make plotting program
     - Sanitize position data:
         - retrive data from get_SV
         - convert data list
         - send list to plot_body
-    - Plot position data
+    - Make cli-menu
+    - convert snake_case to camelCase
 '''
 import ephem
 import datetime
 import time
 import numpy as np
-import plot_position
 from state_vectors import get_SV
+from spaceTrackScrape import getTleData
+#from azimuthElevation import getAzEl
+from plot_position import plot_body
 
 def main():
-    # read TLE data from file
-    with open('tle.txt', 'r') as inFile:
-        name = inFile.readline()
-        line1 = inFile.readline()
-        line2 = inFile.readline()
+    # Start the menu
+    menu = "1 = Scrape data from Space-Track\n
+            2 = Get observer azimuth and elevation\n
+            3 = Plot object orbit (ECEF)\n
+            4 = Exit program\n
+            "
+    print menu
+    menuInput = raw_input("Enter menu ID: ")
 
-    # set observer position
-    obs = ephem.Observer()
-    obs.lat = np.radians(33.66946)
-    obs.long = np.radians(-117.82311)
-    obs.elev = 26.78 # meters
-
-    iss = ephem.readtle(name, line1, line2)
-
-    '''
-    # calculate observer view direction
-    count = 0
-    while count < 1000:
-        obs.date = datetime.datetime.utcnow() 
-        iss.compute(obs)
-        print 'TIME: %s  AZ: %f  EL: %f\n' % \
-                (obs.date, np.degrees(iss.az), np.degrees(iss.alt))
-        count += 1
-        time.sleep(5)
-    '''
+    while menuInput != 4:
+        if menuInput == 1:
+            getTleData()
+            print "TLE data has been saved in 'tle.txt' file"
+        else if menuInput == 2:
+            timeLength = raw_input("Enter length of time to track (seconds): ")
+            getAzEl()
+        else if menuInput == 3:
+            #plot_body(posData)
+        else if menuInput == 4:
+            print "Exiting..."
+        else:
+            print "Not a valid menu input"
+        menuInput = raw_input("Enter menu ID: ")
 
     # get positions for given time
     print "Retrieving body positions..."
