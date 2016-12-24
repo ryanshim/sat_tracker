@@ -51,7 +51,15 @@ def main():
             print "Not a valid menu input"
         menuInput = raw_input("Enter menu ID: ")
 
-    # get positions for given time
+
+
+
+    # read TLE data from file
+    with open('tle.txt', 'r') as inFile:
+        name = inFile.readline()
+        line1 = inFile.readline()
+        line2 = inFile.readline()
+
     print "Retrieving body positions..."
     posData = []
     timeLength = 300 
