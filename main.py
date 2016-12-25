@@ -28,10 +28,10 @@ from plot_position import plot_body
 
 def main():
     # Start the menu
-    menu = "1 = Scrape data from Space-Track\n
-            2 = Get observer azimuth and elevation\n
-            3 = Plot object orbit (ECEF)\n
-            4 = Exit program\n
+    menu = "1 = Scrape data from Space-Track\n \
+            2 = Get observer azimuth and elevation\n \
+            3 = Plot object orbit (ECEF)\n \
+            4 = Exit program\n \
             "
     print menu
     menuInput = raw_input("Enter menu ID: ")
@@ -40,15 +40,15 @@ def main():
         if menuInput == 1:
             getTleData()
             print "TLE data has been saved in 'tle.txt' file"
-        else if menuInput == 2:
+        elif menuInput == 2:
             timeLength = 0
             timeLength = raw_input("Enter length of time to track (seconds): ")
             getAzEl()
-        else if menuInput == 3:
+        elif menuInput == 3:
             timeLength = 0
             timeLength = raw_input("Enter length of time to plot (seconds): ")
             plot_body(timeLength)
-        else if menuInput == 4:
+        elif menuInput == 4:
             print "Exiting..."
         else:
             print "Not a valid menu input"
