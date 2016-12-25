@@ -41,38 +41,19 @@ def main():
             getTleData()
             print "TLE data has been saved in 'tle.txt' file"
         else if menuInput == 2:
+            timeLength = 0
             timeLength = raw_input("Enter length of time to track (seconds): ")
             getAzEl()
         else if menuInput == 3:
-            #plot_body(posData)
+            timeLength = 0
+            timeLength = raw_input("Enter length of time to plot (seconds): ")
+            plot_body(timeLength)
         else if menuInput == 4:
             print "Exiting..."
         else:
             print "Not a valid menu input"
         menuInput = raw_input("Enter menu ID: ")
 
-
-
-
-    # read TLE data from file
-    with open('tle.txt', 'r') as inFile:
-        name = inFile.readline()
-        line1 = inFile.readline()
-        line2 = inFile.readline()
-
-    print "Retrieving body positions..."
-    posData = []
-    timeLength = 300 
-    count = 1
-    while count <= timeLength: 
-        r_cur = get_SV(line1, line2)
-        print "Count:", count, " Data: ", r_cur
-        posData.append(list(r_cur))
-        time.sleep(1)
-        count += 1
-
-    # plot positions on graph
-    plot_position.plot_body(posData)
 
 if __name__ == '__main__':
     main()

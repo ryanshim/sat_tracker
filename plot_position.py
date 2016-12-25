@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 #import matplotlib.animation as animation
 
-def plot_body(posData):
+def plot_body(timeInterval):
 
     # create mpl figure
     fig = plt.figure(figsize=plt.figaspect(1))
@@ -33,16 +33,23 @@ def plot_body(posData):
     ax.plot_surface(x, y, z, rstride=4, cstride=4, color='g', antialiased=True)
 
     # plot positions in recorded file
-    '''
-    r_cur = get_SV(line1, line2)
-    sat_x = r_cur[0]
-    sat_y = r_cur[1]
-    sat_z = r_cur[2]
-    '''
+
+    with open('tle.txt', 'r') as inFile:
+        name = inFile.readline()
+        line1 = inFile.readline()
+        line2 = inFile.readline()
+
+    print "Retrieving body positions..."
+    posData = []
+    count = 1
+    while count <= timeInterval:
+        r_cur = get_SV(line1, line2)
+        print "Count:", count, " Data:", r_cur
+        posData.append(list(r_cur))
+        count += 1
+        time.sleep(1)
+
     for data in posData:
         ax.plot([data[0]], [data[1]], [data[2]], 'bo')
-
-
-    #ax.plot([sat_x], [sat_y], [sat_z], 'bo')
 
     plt.show()
