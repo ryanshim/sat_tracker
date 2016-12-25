@@ -40,17 +40,17 @@ def plot_body(timeInterval):
         line1 = inFile.readline()
         line2 = inFile.readline()
 
-    print "Retrieving body positions..."
+    print "Position in state vector format..."
     posData = []
     count = 1
     while count <= timeInterval:
         r_cur = get_SV(line1, line2)
-        print "Count:", count, " Data:", r_cur
+        print "Time +", count, "Seconds :: State Vectors:", r_cur
         posData.append(list(r_cur))
         count += 1
         time.sleep(1)
 
     for data in posData:
         ax.plot([data[0]], [data[1]], [data[2]], 'bo')
-
+        
     plt.show()
