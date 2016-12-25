@@ -2,6 +2,7 @@
 Scrape data using Space-Track's API
 
 - Currently scraping ISS
+- Space-Track recommends using Curl to access their API.
 '''
 import subprocess
 import shlex
