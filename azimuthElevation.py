@@ -19,7 +19,7 @@ def getAzEl(timeInterval):
     obs = ephem.Observer()
     obs.lat = np.radians(input("Enter observer latitude (deg): "))
     obs.long = np.radians(input("Enter observer longitude (deg): "))
-    obs.elev = input("Enter observer altitude (meters): "))
+    obs.elev = input("Enter observer altitude (meters): ")
 
     # read the tle data
     iss = ephem.readtle(name, line1, line2)
