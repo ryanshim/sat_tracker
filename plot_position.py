@@ -8,7 +8,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from state_vectors import get_SV
 import numpy as np
 import matplotlib.pyplot as plt
-#import matplotlib.animation as animation
 
 def plot_body(timeInterval):
 
