@@ -15,11 +15,11 @@ def getAzEl(timeInterval):
         line1 = inFile.readline()
         line2 = inFile.readline()
 
-    # set observer position
+    # user input for observer LLA
     obs = ephem.Observer()
-    obs.lat = np.radians(33.66946)
-    obs.long = np.radians(-117.82311)
-    obs.elev = 26.78 # meters
+    obs.lat = np.radians(input("Enter observer latitude (deg): "))
+    obs.long = np.radians(input("Enter observer longitude (deg): "))
+    obs.elev = input("Enter observer altitude (meters): "))
 
     # read the tle data
     iss = ephem.readtle(name, line1, line2)
