@@ -2,6 +2,8 @@
 Plots object's current position over surface
 on orthographic projection of Earth
 '''
+import time
+from state_vectors import get_SV
 from mpl_toolkits.mplot3d import Axes3D
 from state_vectors import get_SV
 import numpy as np
@@ -33,9 +35,8 @@ def plot_body(timeInterval):
     ax.plot_surface(x, y, z, rstride=4, cstride=4, color='g', antialiased=True)
 
     # plot positions in recorded file
-
     with open('tle.txt', 'r') as inFile:
-        name = inFile.readline()
+        #name = inFile.readline()
         line1 = inFile.readline()
         line2 = inFile.readline()
 
