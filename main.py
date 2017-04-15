@@ -23,6 +23,8 @@ from plot_position import plot_body
 from animateTrack import plotMillerProj
 
 def main():
+    satList = []
+
     menu =  "1 = Scrape data from Space-Track\n" + \
             "2 = Get observer azimuth and elevation\n" + \
             "3 = Plot object orbit (ECEF)\n" + \
@@ -52,7 +54,10 @@ def main():
             sat = Satellite(satNum, l1, l2)
             sat.getAzEl()
             '''
-            satList[0].getAzEl()
+            if not satList:
+                print "Satellites not populated yet. Run menu option 1 first.\n"
+            else:
+                satList[0].getAzEl()
 
         elif menuInput == 3:
             timeLength = 0
