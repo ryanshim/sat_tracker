@@ -15,8 +15,9 @@ TODO:
     + Make cli menu                                                         OK
     + convert snake_case to camelCase
 '''
+from satellite import Satellite
 from state_vectors import get_SV
-from spaceTrackScrape import getTleData
+from spaceTrackScrape import getTleData, parseTleData
 from azimuthElevation import getAzEl
 from plot_position import plot_body
 from animateTrack import plotMillerProj
@@ -36,10 +37,23 @@ def main():
         if menuInput == 1:
             getTleData()
             print "TLE data has been saved in 'tle.txt' file"
+            satList = parseTleData()
+
         elif menuInput == 2:
-            timeLength = 0
-            timeLength = input("Enter length of time to track (seconds): ")
-            getAzEl(timeLength)
+            #timeLength = 0
+            #timeLength = input("Enter length of time to track (seconds): ")
+            #getAzEl(timeLength)
+            '''
+            with open('tle.txt', 'r') as inFile:
+                l1 = inFile.readline()
+                l2 = inFile.readline()
+                satNum = l1[9:16]
+            print satNum
+            sat = Satellite(satNum, l1, l2)
+            sat.getAzEl()
+            '''
+            satList[0].getAzEl()
+
         elif menuInput == 3:
             timeLength = 0
             timeLength = input("Enter length of time to plot (seconds): ")
