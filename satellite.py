@@ -5,6 +5,8 @@ Satellite class: creates Satellite object when instantiated
         line1
         line2
     Member functions:
+        memberVarGetters
+        printSatelliteTle
         getAzEl
 '''
 import sys
@@ -20,7 +22,13 @@ class Satellite:
         self.line1 = line1 
         self.line2 = line2 
 
-    def printSatelliteInfo(self):
+    def getItlDesig():
+        return self.itlDesig
+
+    def getSatTle():
+        return self.line1 + "\n" + self.line2 + "\n"
+
+    def printSatelliteTle(self):
         print self.itlDesig, " ", self.line1, " ", self.line2
 
     def getAzEl(self):
@@ -40,9 +48,4 @@ class Satellite:
                 time.sleep(1)
             except KeyboardInterrupt:
                 break
-
-
-
-
-
 
