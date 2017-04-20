@@ -21,20 +21,17 @@ def plotMillerProj(satObject):
     millsMap.drawmapboundary(fill_color='aqua')
     millsMap.fillcontinents(color='coral', lake_color='aqua')
 
-    '''
-    # map out propogated positions
+
+    # map out propogated coordinates 
     lonsLats = satObject.propogate()
     for data in lonsLats:
-        #print data[0], data[1], "\n"
+        print data[0], data[1], "\n"
         if data[0] < 0:
             data[0] += 360
-        elif data[1] < 0:
-            data[1] += 360
 
         x, y = millsMap(data[0], data[1])
 
-        millsMap.plot(x, y, 'bo', markersize=5)[0]
-    '''
+        millsMap.plot(x, y, 'bo', markersize=2)[0]
 
     # reset x, y to plot current position
     x, y = millsMap(0,0)
@@ -57,10 +54,6 @@ def plotMillerProj(satObject):
         # basemap uses 0,0 as bottom left corner of plot
         if lons < 0:
             lons += 360
-        elif lats < 0:
-            lats += 360
-
-        print lons, lats, "\n" # remove later
 
         x, y = millsMap(lons, lats)
 
