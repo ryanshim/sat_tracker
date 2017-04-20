@@ -15,7 +15,7 @@ TODO:
 '''
 from satellite import Satellite
 from spaceTrackScrape import getTleData, parseTleData
-from plot_position import plot_body
+from plot_position import plotBody
 from animateTrack import plotMillerProj
 
 def main():
@@ -54,9 +54,15 @@ def main():
                     print "Invalid key. Input correct key.\n" 
 
         elif menuInput == 3:
-            timeLength = 0
-            timeLength = input("Enter length of time to plot (seconds): ")
+            satDict = parseTleData()
             plot_body(timeLength)
+            satDictKey = raw_input("Enter satellite int'l designator" \
+                    "(FORMAT EX: 98067A)\n>>> ")
+            try:
+                print "Plotting current position..."
+                plotBody(satDict[satDictKey])
+            except LookupError:
+                print "Invalid key. Input correct key.\n" 
 
         elif menuInput == 4:
             satDict = parseTleData()
