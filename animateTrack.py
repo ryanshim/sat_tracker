@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def plotMillerProj():
+def plotMillerProj(satData):
 
     # miller projection
     millsMap = Basemap(projection='mill', lon_0=180)
@@ -24,31 +24,32 @@ def plotMillerProj():
     x, y = millsMap(0,0)
     position = millsMap.plot(x, y, 'ro', markersize=5)[0]
 
-
-    # read the tle from file
-    with open("tle.txt", "r") as inFile:
-        name = "ISS (ZARYA)"
-        line1 = inFile.readline()
-        line2 = inFile.readline()
-
+    designator = satData.getItlDesig()
+    line1 = satData.getLine1()
+    line2 = satData.getLine2()
 
     def init():
         position.set_data([], [])
         return position,
 
     def animate(i):
-        # compute longitude and latitude
-        iss = ephem.readtle(name, line1, line2)
-        iss.compute()
-        lons = np.degrees(iss.sublong)
-        lats = np.degrees(iss.sublat)
+        sat = ephem.readtle(designator, line1, line2)
+        sat.compute()
+        lons = np.degrees(sat.sublong)
+        lats = np.degrees(sat.sublat)
 
         x, y = millsMap(lons, lats)
 
         position.set_data(x, y)
         return position,
 
-    # call the animator. blit=True  means to redraw only the parts that have been changed
-    anim = animation.FuncAnimation(plt.gcf(), animate, init_func=init, frames=20, interval=500, blit=True)
+    try:
+        # call the animator. blit=True  means to redraw only the 
+        # parts that have been changed
+        anim = animation.FuncAnimation(plt.gcf(), animate,
+                                       init_func=init, frames=20,
+                                       interval=500, blit=True)
 
-    plt.show()
+        plt.show()
+    except KeyboardInterrupt:
+        return
