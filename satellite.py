@@ -32,8 +32,9 @@ class Satellite:
     def getLine2(self):
         return self.line2
 
-    '''
-    # gets propagations for different times
+    # gets propagations for different timecodes
+    # interval = 2 minutes
+    # +/- 90
     def propogate(self):
         lonLatList = []
         now = datetime.datetime.utcnow()
@@ -45,9 +46,8 @@ class Satellite:
             lons = np.degrees(sat.sublong)
             lats = np.degrees(sat.sublat)
             lonLatList.append([lons, lats])
-            x += 5
+            x += 1 
         return lonLatList
-    '''
 
     # computes state vectors of this satellite
     def get_SV(self):
