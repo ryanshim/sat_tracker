@@ -47,7 +47,7 @@ def main():
                 print "Satellites not populated yet. Run menu option 1 first.\n"
             else:
                 satDictKey = raw_input("Enter satellite int'l designator" \
-                        "(FORMAT EX: 98067A)\n>>> ")
+                        " (FORMAT EX: 98067A)\n>>> ")
                 try:
                     satDict[satDictKey].getAzEl()
                 except LookupError:
@@ -57,7 +57,7 @@ def main():
             satDict = parseTleData()
             plot_body(timeLength)
             satDictKey = raw_input("Enter satellite int'l designator" \
-                    "(FORMAT EX: 98067A)\n>>> ")
+                    " (FORMAT EX: 98067A)\n>>> ")
             try:
                 print "Plotting current position..."
                 plotBody(satDict[satDictKey])
@@ -67,7 +67,7 @@ def main():
         elif menuInput == 4:
             satDict = parseTleData()
             satDictKey = raw_input("Enter satellite int'l designator" \
-                    "(FORMAT EX: 98067A)\n>>> ")
+                    " (FORMAT EX: 98067A)\n>>> ")
             try:
                 print "Plotting current position..."
                 plotMillerProj(satDict[satDictKey])
