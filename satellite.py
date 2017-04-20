@@ -6,6 +6,7 @@ Satellite class: creates Satellite object when instantiated
         line2
     Member functions:
         memberVarGetters
+        propogate
         get_SV (state vectors)
         getAzEl
 '''
@@ -30,6 +31,23 @@ class Satellite:
 
     def getLine2(self):
         return self.line2
+
+    # gets propagations for different timecodes
+    # interval = 2 minutes
+    # +/- 90
+    def propogate(self):
+        lonLatList = []
+        now = datetime.datetime.utcnow()
+        x = -90
+        while x < 90:
+            nowPlus5 = now + datetime.timedelta(minutes = x)
+            sat = ephem.readtle(self.itlDesig, self.line1, self.line2)
+            sat.compute(nowPlus5)
+            lons = np.degrees(sat.sublong)
+            lats = np.degrees(sat.sublat)
+            lonLatList.append([lons, lats])
+            x += 1 
+        return lonLatList
 
     # computes state vectors of this satellite
     def get_SV(self):

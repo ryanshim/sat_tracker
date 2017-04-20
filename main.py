@@ -59,6 +59,7 @@ def main():
             plot_body(timeLength)
 
         elif menuInput == 4:
+            satDict = parseTleData()
             satDictKey = raw_input("Enter satellite int'l designator" \
                     "(FORMAT EX: 98067A)\n>>> ")
             try:
