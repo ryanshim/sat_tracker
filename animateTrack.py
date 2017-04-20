@@ -28,7 +28,7 @@ def plotMillerProj(satObject):
     line2 = satObject.getLine2()
 
     # map out propogated coordinates 
-    lonsLats = satObject.propogate()
+    lonsLats = satObject.propogatePath()
     for data in lonsLats:
         if data[0] < 0:
             data[0] += 360

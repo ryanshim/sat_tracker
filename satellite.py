@@ -35,7 +35,7 @@ class Satellite:
     # gets propagations for different timecodes
     # interval = 2 minutes
     # +/- 90
-    def propogate(self):
+    def propogatePath(self):
         lonLatList = []
         now = datetime.datetime.utcnow()
         x = -90
