@@ -13,33 +13,34 @@ def plotMillerProj(satObject):
     millsMap = Basemap(projection='mill', lon_0=180)
 
     # plot coastlines, draw label meridians and parallels
-    millsMap.drawcoastlines()
+    millsMap.drawcoastlines(color='w')
     millsMap.drawparallels(np.arange(-90,90,30), labels=[1,0,0,0])
     millsMap.drawmeridians(np.arange(-180,180,30), labels=[0,0,0,1])
 
-    # fill continents 'coral' (with zorder=0), color wet areas 'aqua'
-    millsMap.drawmapboundary(fill_color='aqua')
-    millsMap.fillcontinents(color='coral', lake_color='aqua')
+    # fill continents 'black' (with zorder=0), color wet areas 'black'
+    # color 'k' = black
+    millsMap.drawmapboundary(fill_color='#1a335f')
+    millsMap.fillcontinents(color='k', lake_color='k')
 
+    # satellite object getters
+    designator = satObject.getItlDesig()
+    line1 = satObject.getLine1()
+    line2 = satObject.getLine2()
 
     # map out propogated coordinates 
     lonsLats = satObject.propogate()
     for data in lonsLats:
-        print data[0], data[1], "\n"
         if data[0] < 0:
             data[0] += 360
 
         x, y = millsMap(data[0], data[1])
-
-        millsMap.plot(x, y, 'bo', markersize=2)[0]
+        # yellow dot
+        millsMap.plot(x, y, 'yo', markersize=2)[0]
 
     # reset x, y to plot current position
+    # red dot
     x, y = millsMap(0,0)
     position = millsMap.plot(x, y, 'ro', markersize=5)[0]
-
-    designator = satObject.getItlDesig()
-    line1 = satObject.getLine1()
-    line2 = satObject.getLine2()
 
     def init():
         position.set_data([], [])
@@ -67,6 +68,7 @@ def plotMillerProj(satObject):
                                        init_func=init, frames=20,
                                        interval=500, blit=True)
 
+        plt.title(designator)
         plt.show()
     except KeyboardInterrupt:
         return
