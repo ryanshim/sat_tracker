@@ -20,7 +20,7 @@ def plotMillerProj(satObject):
     # fill continents 'black' (with zorder=0), color wet areas 'black'
     # color 'k' = black
     millsMap.drawmapboundary(fill_color='#1a335f')
-    millsMap.fillcontinents(color='k', lake_color='k')
+    millsMap.fillcontinents(color='k', lake_color='#1a335f')
 
     # satellite object getters
     designator = satObject.getItlDesig()
