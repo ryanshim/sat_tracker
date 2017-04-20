@@ -5,7 +5,6 @@ on orthographic projection of Earth
 import time
 from state_vectors import get_SV
 from mpl_toolkits.mplot3d import Axes3D
-from state_vectors import get_SV
 import numpy as np
 import matplotlib.pyplot as plt
 

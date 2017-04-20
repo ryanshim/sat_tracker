@@ -9,15 +9,12 @@ Utilizes pyephem and sgp4 packages to calculate object position
 TODO:
     + Use space-track api to collect TLE data                               OK
     + Create animated plot of current position (miller projection)
-        - Closing graph does not close out of animate loop
-    + Create a prediction function 
+        + Create a prediction function to show on miller projection
     + Make cli menu                                                         OK
     + convert snake_case to camelCase
 '''
 from satellite import Satellite
-from state_vectors import get_SV
 from spaceTrackScrape import getTleData, parseTleData
-from azimuthElevation import getAzEl
 from plot_position import plot_body
 from animateTrack import plotMillerProj
 
@@ -37,7 +34,7 @@ def main():
     # main loop
     while menuInput != 5:
         if menuInput == 1:
-            getTleData()
+            #getTleData()
             print "TLE data has been saved in 'tle.txt' file"
             satDict = parseTleData()
 
@@ -58,9 +55,13 @@ def main():
             plot_body(timeLength)
 
         elif menuInput == 4:
-            print "Plotting current position..."
-            plotMillerProj()
-            continue
+            satDictKey = raw_input("Enter satellite int'l designator" \
+                    "(FORMAT EX: 98067A)\n>>> ")
+            try:
+                print "Plotting current position..."
+                plotMillerProj(satDict[satDictKey])
+            except LookupError:
+                print "Invalid key. Input correct key.\n" 
 
         else:
             print "Not a valid menu input"
