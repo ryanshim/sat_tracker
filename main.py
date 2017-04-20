@@ -31,6 +31,7 @@ def main():
             "5 = Exit program\n"
             
     print menu
+
     menuInput = input("Enter menu ID\n>>> ")
 
     # main loop
