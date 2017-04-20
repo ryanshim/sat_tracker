@@ -26,19 +26,23 @@ def main():
             "3 = Plot object orbit (ECEF)\n" + \
             "4 = Plot object current position (Miller Projection)\n" + \
             "5 = Exit program\n"
-            
     print menu
 
-    menuInput = input("Enter menu ID\n>>> ")
+    try:
+        menuInput = int(raw_input("Enter menu ID\n>>> "))
+    except ValueError:
+        print "Input must be an integer\n"
+        menuInput = int(raw_input("Enter menu ID\n>>> "))
 
     # main loop
     while menuInput != 5:
         if menuInput == 1:
-            #getTleData()
-            print "TLE data has been saved in 'tle.txt' file"
+            getTleData()
+            print "TLE data has been saved in 'tle.txt' file\n"
             satDict = parseTleData()
 
         elif menuInput == 2:
+            satDict = parseTleData()
             if not satDict:
                 print "Satellites not populated yet. Run menu option 1 first.\n"
             else:
@@ -66,7 +70,12 @@ def main():
         else:
             print "Not a valid menu input"
 
-        menuInput = input("Enter menu ID\n>>> ")
+        try:
+            menuInput = int(raw_input("Enter menu ID\n>>> "))
+        except ValueError:
+            print "Input must be an integer\n"
+            menuInput = int(raw_input("Enter menu ID\n>>> "))
+
     print "Exiting..."
 
 if __name__ == '__main__':
