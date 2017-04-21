@@ -33,7 +33,7 @@ class Satellite:
         return self.line2
 
     # gets propagations for different timecodes
-    # interval = 2 minutes
+    # interval = 1 min
     # +/- 90
     def propogatePath(self):
         lonLatList = []
@@ -65,7 +65,7 @@ class Satellite:
 
         return position
 
-    # comput+outputs az, el until ctrl+c
+    # compute+outputs az, el until ctrl+c
     def getAzEl(self):
         obs = ephem.Observer()
         obs.lat = np.radians(input("Enter observer latitude (deg): "))
