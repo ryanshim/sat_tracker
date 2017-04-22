@@ -6,7 +6,7 @@ Satellite class: creates Satellite object when instantiated
         line2
     Member functions:
         memberVarGetters
-        propogate
+        propagate
         get_SV (state vectors)
         getAzEl
 '''
@@ -35,7 +35,7 @@ class Satellite:
     # gets propagations for different timecodes
     # interval = 1 min
     # +/- 90
-    def propogatePath(self):
+    def propagatePath(self):
         lonLatList = []
         now = datetime.datetime.utcnow()
         x = -90
@@ -50,7 +50,7 @@ class Satellite:
         return lonLatList
 
     # computes state vectors of this satellite
-    def get_SV(self):
+    def getSV(self):
         # get current utc time
         year    = datetime.datetime.utcnow().timetuple().tm_year
         month   = datetime.datetime.utcnow().timetuple().tm_mon
@@ -60,7 +60,7 @@ class Satellite:
         second  = datetime.datetime.utcnow().timetuple().tm_sec
 
         satObject = twoline2rv(self.line1, self.line2, wgs72)   # compute sat object
-        position, velocity = satObject.propogate(year, month, date,
+        position, velocity = satObject.propagate(year, month, date,
                                                  hour, minute, second)
 
         return position
