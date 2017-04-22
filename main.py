@@ -1,6 +1,7 @@
 '''
 Calculates the azimuth and elevation relative to the observer
-Plots object position relative to ECEF
+Plots object position using longitudinal, latitudinal coordinates
+State Vectors provided on plot
 
 Observer can be set with LLA
 
@@ -9,7 +10,8 @@ Utilizes pyephem and sgp4 packages to calculate object position
 TODO:
     + Use space-track api to collect TLE data                               OK
     + Create animated plot of current position (miller projection)
-        + Create a prediction function to show on miller projection
+        + Create a prediction function to show on miller projection         OK
+        + Create a legend to show current LLA, State Vectors, & velocity
     + Make cli menu                                                         OK
     + convert snake_case to camelCase
 '''
