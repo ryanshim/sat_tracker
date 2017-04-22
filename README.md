@@ -6,6 +6,7 @@
 - matplotlib
     - Basemap
         - libgeos
+        - libgeos-dev
 - numpy
 - Space-Track account to download TLE data
 
