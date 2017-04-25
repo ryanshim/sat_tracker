@@ -9,11 +9,11 @@ Utilizes pyephem and sgp4 packages to calculate object position
 
 TODO:
     + Use space-track api to collect TLE data                               OK
-    + Create animated plot of current position (miller projection)
+    + Create animated plot of current position (miller projection)          OK
         + Create a prediction function to show on miller projection         OK
         + Create a legend to show current LLA, State Vectors, & velocity
     + Make cli menu                                                         OK
-    + convert snake_case to camelCase
+    + convert snake_case to camelCase                                       OK
 '''
 from satellite import Satellite
 from spaceTrackScrape import getTleData, parseTleData
