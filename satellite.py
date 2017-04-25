@@ -40,9 +40,9 @@ class Satellite:
         now = datetime.datetime.utcnow()
         x = -90
         while x < 90:
-            nowPlus5 = now + datetime.timedelta(minutes = x)
+            nowPlus1 = now + datetime.timedelta(minutes = x)
             sat = ephem.readtle(self.itlDesig, self.line1, self.line2)
-            sat.compute(nowPlus5)
+            sat.compute(nowPlus1)
             lons = np.degrees(sat.sublong)
             lats = np.degrees(sat.sublat)
             lonLatList.append([lons, lats])
