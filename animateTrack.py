@@ -62,6 +62,10 @@ def plotMillerProj(satObject):
         lons = np.degrees(sat.sublong)
         lats = np.degrees(sat.sublat)
 
+        # show object info 
+        plt.text(0, 1, '', color='w')
+        plt.text(0, 1, str(lons), color='w')
+
         # basemap uses 0,0 as bottom left corner of plot
         if lons < 0:
             lons += 360
