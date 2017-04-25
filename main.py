@@ -17,7 +17,6 @@ TODO:
 '''
 from satellite import Satellite
 from spaceTrackScrape import getTleData, parseTleData
-from plot_position import plotBody
 from animateTrack import plotMillerProj
 
 def main():
@@ -25,9 +24,8 @@ def main():
 
     menu =  "1 = Scrape data from Space-Track\n" + \
             "2 = Get observer azimuth and elevation\n" + \
-            "3 = Plot object orbit (ECEF)\n" + \
-            "4 = Plot object current position (Miller Projection)\n" + \
-            "5 = Exit program\n"
+            "3 = Plot object current position (Miller Projection)\n" + \
+            "4 = Exit program\n"
     print menu
 
     try:
@@ -37,7 +35,7 @@ def main():
         menuInput = int(raw_input("Enter menu ID\n>>> "))
 
     # main loop
-    while menuInput != 5:
+    while menuInput != 4:
         if menuInput == 1:
             getTleData()
             print "TLE data has been saved in 'tle.txt' file\n"
@@ -56,17 +54,6 @@ def main():
                     print "Invalid key. Input correct key.\n" 
 
         elif menuInput == 3:
-            satDict = parseTleData()
-            plot_body(timeLength)
-            satDictKey = raw_input("Enter satellite int'l designator" \
-                    " (FORMAT EX: 98067A)\n>>> ")
-            try:
-                print "Plotting current position..."
-                plotBody(satDict[satDictKey])
-            except LookupError:
-                print "Invalid key. Input correct key.\n" 
-
-        elif menuInput == 4:
             satDict = parseTleData()
             satDictKey = raw_input("Enter satellite int'l designator" \
                     " (FORMAT EX: 98067A)\n>>> ")
