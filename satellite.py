@@ -6,7 +6,7 @@ Satellite class: creates Satellite object when instantiated
         line2
     Member functions:
         memberVarGetters
-        propagate
+        propagatePath
         get_SV (state vectors)
         getAzEl
 '''
