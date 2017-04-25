@@ -38,15 +38,15 @@ class Satellite:
     def propagatePath(self):
         lonLatList = []
         now = datetime.datetime.utcnow()
-        x = -90
-        while x < 90:
-            nowPlus1 = now + datetime.timedelta(minutes = x)
+        tDelta = -90
+        while tDelta < 90:
+            nowPlusTimeDelta = now + datetime.timedelta(minutes = tDelta)
             sat = ephem.readtle(self.itlDesig, self.line1, self.line2)
-            sat.compute(nowPlus1)
+            sat.compute(nowPlusTimeDelta)
             lons = np.degrees(sat.sublong)
             lats = np.degrees(sat.sublat)
             lonLatList.append([lons, lats])
-            x += 1 
+            tDelta += 1 
         return lonLatList
 
     # computes state vectors of this satellite
