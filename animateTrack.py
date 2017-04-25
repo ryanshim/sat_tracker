@@ -64,8 +64,8 @@ def plotMillerProj(satObject):
                             satObject.getLine2())
 
         sat.compute()   # compute position info at current time
-        lons = np.degrees(sat.sublong)  # get object lon/lat
-        lats = np.degrees(sat.sublat)
+        curLons = np.degrees(sat.sublong)  # get object lon/lat
+        curLats = np.degrees(sat.sublat)
 
         satStateVectors = satObject.getSV() # get object state vectors
         velocity = np.sqrt(satStateVectors[1][0]**2 +  # calc velocity magnitude 
@@ -74,18 +74,18 @@ def plotMillerProj(satObject):
         
         # update object info text object
         satInfo.set_fontsize(8)
-        satInfo.set_text(' Lat: ' + str(lats) +
-                         '\n Lon: ' + str(lons) +
+        satInfo.set_text(' Lat: ' + str(curLats) +
+                         '\n Lon: ' + str(curLons) +
                          '\n Velocity: ' + str(velocity) + ' (km/s)' +
                          '\n x: ' + str(satStateVectors[0][0]) +
                          '  y: ' + str(satStateVectors[0][1]) +
                          '  z: ' + str(satStateVectors[0][2]) + '\n')
 
         # basemap uses 0,0 as bottom left corner of plot
-        if lons < 0:
-            lons += 360
+        if curLons < 0:
+            curLons += 360
 
-        x, y = millsMap(lons, lats)
+        x, y = millsMap(curLons, curLats)
         position.set_data(x, y)
 
         return position, satInfo
