@@ -1,5 +1,6 @@
 '''
-Plot object's current position over an animated surface
+Plot object's current position and its path over an animated surface
+Includes updating position status (lon/lat, velocity, state-vectors)
 '''
 import ephem
 import datetime # include for nightshade
@@ -22,19 +23,15 @@ def plotMillerProj(satObject):
     millsMap.drawmeridians(np.arange(-180,180,30), labels=[0,0,0,1])
     millsMap.nightshade(datetime.datetime.utcnow(), alpha=0.2) # alpha = transparency lvl
 
-    # fill continents 'black' (with zorder=0), color wet areas 'black'
-    # color 'k' = black
+    # fill continents dark grey (with zorder=0), color wet areas dark blue
+    # zorder used to set order of what to draw on canvas first
+    # higher zorder means it will overlap lower zorder draws
     millsMap.drawmapboundary(fill_color='#1a335f')
     millsMap.fillcontinents(color='#111111', lake_color='#1a335f')
 
     '''
     PLOT OBJECT PATH
     '''
-    # satellite object getters
-    designator = satObject.getItlDesig()
-    line1 = satObject.getLine1()
-    line2 = satObject.getLine2()
-
     # plot propagated coordinates to show object path 
     lonsLats = satObject.propagatePath()
     for data in lonsLats:
@@ -45,7 +42,7 @@ def plotMillerProj(satObject):
         millsMap.plot(x, y, 'y_', markersize=2)[0]
 
     '''
-    PLOT OBJECT CURRENT POSITION + CREATE STATUS BOX 
+    PLOT OBJECT CURRENT POSITION + POSITION STATUS 
     '''
     # reset x, y to plot current position
     x, y = millsMap(0,0)
@@ -54,16 +51,20 @@ def plotMillerProj(satObject):
     # create sat info text object
     satInfo = plt.text(0, 0, '', color='w')
 
+    # animation plot initializer
     def init():
         satInfo.set_text('')
         position.set_data([], [])
         return position, satInfo
 
+    # animate function is called to update the plot
     def animate(i):
-        # get object longitude latitude
-        sat = ephem.readtle(designator, line1, line2)
-        sat.compute()
-        lons = np.degrees(sat.sublong)
+        sat = ephem.readtle(satObject.getItlDesig(),    # read tle data
+                            satObject.getLine1(),
+                            satObject.getLine2())
+
+        sat.compute()   # compute position info at current time
+        lons = np.degrees(sat.sublong)  # get object lon/lat
         lats = np.degrees(sat.sublat)
 
         satStateVectors = satObject.getSV() # get object state vectors
@@ -71,7 +72,7 @@ def plotMillerProj(satObject):
                            satStateVectors[1][1]**2 +
                            satStateVectors[1][2]**2)
         
-        # update text
+        # update object info text object
         satInfo.set_fontsize(8)
         satInfo.set_text(' Lat: ' + str(lats) +
                          '\n Lon: ' + str(lons) +
@@ -89,6 +90,9 @@ def plotMillerProj(satObject):
 
         return position, satInfo
 
+    '''
+    CALL ANIMATION FUNCTION
+    '''
     try:
         # call the animator. blit=True  means to redraw only the 
         # parts that have been changed
@@ -97,7 +101,7 @@ def plotMillerProj(satObject):
                                        interval=500, blit=True)
 
         # set plot title
-        plt.title("Itn'l Designator: " + designator)
+        plt.title("Itn'l Designator: " + satObject.getItlDesig())
         plt.show()
     except KeyboardInterrupt:
         return
