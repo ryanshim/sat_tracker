@@ -63,7 +63,7 @@ class Satellite:
         position, velocity = satObject.propagate(year, month, date,
                                                  hour, minute, second)
 
-        return position
+        return [position, velocity]
 
     # compute+outputs az, el until ctrl+c
     def getAzEl(self):
