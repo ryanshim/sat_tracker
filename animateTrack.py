@@ -51,9 +51,13 @@ def plotMillerProj(satObject):
     x, y = millsMap(0,0)
     position = millsMap.plot(x, y, 'ro', markersize=5)[0]
 
+    # create sat info text object
+    satInfo = plt.text(0, 1, '', color='w')
+
     def init():
+        satInfo.set_text('')
         position.set_data([], [])
-        return position,
+        return position, satInfo
 
     def animate(i):
         # get object longitude latitude
@@ -62,9 +66,15 @@ def plotMillerProj(satObject):
         lons = np.degrees(sat.sublong)
         lats = np.degrees(sat.sublat)
 
-        # show object info 
-        plt.text(0, 1, '', color='w')
-        plt.text(0, 1, str(lons), color='w')
+        satStateVectors = satObject.getSV() # get object state vectors
+        velocity = np.sqrt(satStateVectors[1][0]**2 +  # calc velocity magnitude 
+                        satStateVectors[1][1]**2 +
+                        satStateVectors[1][2]**2)
+        
+
+        satInfo.set_text('Lat: ' + str(lats) +
+                         '\nLon: ' + str(lons) +
+                         '\nVelocity: ' + str(velocity) + ' (km/s)')
 
         # basemap uses 0,0 as bottom left corner of plot
         if lons < 0:
@@ -73,23 +83,9 @@ def plotMillerProj(satObject):
         x, y = millsMap(lons, lats)
 
         position.set_data(x, y)
-        return position,
+        return position, satInfo
 
     try:
-        '''
-        # set object position/velocity status
-        satPosition = satObject.getSV()
-        rLabel = ['x', 'y', 'z']
-        cLabel = ['SV: ']
-        cells = [[satPosition[0]], [satPosition[1]], [satPosition[2]]]
-
-        plt.table(cellText=cells,
-                  colWidths=[0.2],
-                  rowLabels=rLabel,
-                  colLabels=cLabel,
-                  loc='bottom')
-        '''
-
         # call the animator. blit=True  means to redraw only the 
         # parts that have been changed
         anim = animation.FuncAnimation(plt.gcf(), animate,
@@ -98,7 +94,7 @@ def plotMillerProj(satObject):
         
 
         # set plot title
-        plt.title(designator)
+        plt.title("Itn'l Designator: " + designator)
         plt.show()
     except KeyboardInterrupt:
         return
