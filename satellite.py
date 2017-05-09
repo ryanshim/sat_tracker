@@ -115,4 +115,3 @@ class Satellite:
                 time.sleep(1)
             except KeyboardInterrupt:
                 break
-
