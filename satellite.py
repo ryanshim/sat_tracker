@@ -14,6 +14,7 @@ import ephem
 import datetime
 import time 
 import numpy as np
+import RPi.GPIO as GPIO
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
@@ -73,6 +74,37 @@ class Satellite:
         obs.elev = input("Enter observer altitude (meters): ")
 
         sat = ephem.readtle(self.itlDesig, self.line1, self.line2)
+
+        while True:
+            try:
+                obs.date = datetime.datetime.utcnow()
+                sat.compute(obs)
+                print 'TIME: %s  AZ: %f  EL: %f\n' % \
+                        (obs.date, np.degrees(sat.az), np.degrees(sat.alt))
+                time.sleep(1)
+            except KeyboardInterrupt:
+                break
+
+    # track the satellite on raspberry pi rotator
+    def trackAzEl(self):
+        obs = ephem.Observer()
+        obs.lat = np.radians(input("Enter observer latitude (deg): "))
+        obs.long = np.radians(input("Enter observer longitude (deg): "))
+        obs.elev = input("Enter observer altitude (meters): ")
+
+        sat = ephem.readtle(self.itlDesig, self.line1, self.line2)
+
+        # set rpi pin classification
+        GPIO.setmode(GPIO.BOARD)
+
+        # set pin 18 as output (azimuth)
+        GPIO.setup(18, GPIO.OUT)
+
+        # set pwm frequency = 25 Hz
+        p = GPIO.PWM(18, 25)
+
+        # initialize duty cycle (2.5 = 0 deg, 11.8 = 180 deg)
+        p.start(2.5)
 
         while True:
             try:
