@@ -14,7 +14,7 @@ import ephem
 import datetime
 import time 
 import numpy as np
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
 
@@ -85,6 +85,7 @@ class Satellite:
             except KeyboardInterrupt:
                 break
 
+    '''
     # track the satellite on raspberry pi rotator
     def trackAzEl(self):
         obs = ephem.Observer()
@@ -115,3 +116,4 @@ class Satellite:
                 time.sleep(1)
             except KeyboardInterrupt:
                 break
+    '''
