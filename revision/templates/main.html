@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" media"screen" href="/static/bootstrap.min.css">
+
+    <!-- Stylesheet -->
+    <style>
+    .top-buffer {
+        margin-top:20px;
+    }
+
+    .left-buffer {
+        margin-left:10px;
+    }
+
+    .bottom-buffer {
+        margin-bottom:5px;
+    }
+
+    body {
+        font-family:"Questrial", sans-serif;
+    }
+    </style>
+
+  </head>
+
+  <!-- BODY -->
+  <body>
+      <!-- Page Title -->
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col">
+                  </div>
+                  <div class="col">
+                      <h4 class="text-center"> {{ temp }} </h4>
+                  </div>
+                  <div class="col">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Satellite Selection -->
+      <div class="top-buffer">
+          <div class="left-buffer">
+
+              <div class="container-fluid">
+
+                  <div class="row">
+                      <div class="col-sm-3">
+                          <select class="form-control">
+                              <option> Select Satellite by Int'l Desig </option>
+                              {% for k,v in tle.items() %}
+                              <option> {{ k }} </option>
+                              {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col-sm-3">
+                          <a href="/tracking/"><button type="button" class="btn btn-info">TRACK</button></a>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+      <!-- Display Information -->
+      <div class="top-buffer">
+          <div class="left-buffer">
+              <div class="container-fluid">
+
+              </div>
+          </div>
+      </div>
+
+
+  </body>
+</html>
+
+
+

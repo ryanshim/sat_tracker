@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+<!-- JS MAP LIB IMPORTS -->
+<script src="/static/ammap/ammap.js" type="text/javascript"></script>
+<!-- insert js map -->
+<script src="/static/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/ammap/ammap.css" type="text/css" media="all" />
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" media"screen" href="/static/bootstrap.min.css">
+
+    <!-- Stylesheet -->
+    <style>
+    .top-buffer {
+        margin-top:20px;
+    }
+
+    .left-buffer {
+        margin-left:10px;
+    }
+
+    .bottom-buffer {
+        margin-bottom:5px;
+    }
+
+    body {
+        font-family:"Questrial", sans-serif;
+    }
+    </style>
+
+  </head>
+
+  <!-- BODY -->
+  <body>
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <h4 class="text-center">TRACKING</h4>
+          </div>
+      </div>
+
+
+
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col"></div>
+                  <div class="col">
+
+                      <div id="mapdiv" style="width: 800px; height: 600px;"></div>
+                      <script>
+                        AmCharts.makeChart( "mapdiv", {
+                          /**
+                           * this tells amCharts it's a map
+                           */
+                          "type": "map",
+
+                          /**
+                           * create data provider object
+                           * map property is usually the same as the name of the map file.
+                           * getAreasFromMap indicates that amMap should read all the areas available
+                           * in the map data and treat them as they are included in your data provider.
+                           * in case you don't set it to true, all the areas except listed in data
+                           * provider will be treated as unlisted.
+                           */
+                          "dataProvider": {
+                            "map": "worldLow",
+                            "getAreasFromMap": true
+                          },
+
+                          /**
+                           * create areas settings
+                           * autoZoom set to true means that the map will zoom-in when clicked on the area
+                           * selectedColor indicates color of the clicked area.
+                           */
+                          "areasSettings": {
+                            "autoZoom": true,
+                            "selectedColor": "#CC0000"
+                          },
+
+                          /**
+                           * let's say we want a small map to be displayed, so let's create it
+                           */
+                          "smallMap": {}
+                        } );
+                      </script>
+
+                  </div> <!-- END MAP SCRIPT -->
+
+                  <div class="col"></div>
+
+              </div>
+          </div>
+
+          <!-- APP Navigation Buttons -->
+          <div class="top-buffer">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col"></div>
+                      <div class="col text-center">
+                          <a href="/"><button type="button" class="btn btn-info">Back</button></a>
+                      </div>
+                      <div class="col"></div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+
+  </body>
+
+
+
+
+</html>
