@@ -54,23 +54,27 @@
 
               <div class="container-fluid">
 
-                  <div class="row">
-                      <div class="col-sm-3">
-                          <select class="form-control">
-                              <option> Select Satellite by Int'l Desig </option>
-                              {% for k,v in tle.items() %}
-                              <option> {{ k }} </option>
-                              {% endfor %}
-                          </select>
-                      </div>
-                      <div class="col-sm-3">
-                          <a href="/tracking/"><button type="button" class="btn btn-info">TRACK</button></a>
-                      </div>
+                  <div class="form-group">
+                      <form action="/tracking/" class="form-horizontal" method="POST">
 
+                          <div class="form-group">
+                              <select name="itl_desig">
+                                  <option> Select Satellite by Int'l Desig </option>
+                                  {% for k,v in tle.items() %}
+                                  <option> {{ k }} </option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+
+                          <div class="form-group">
+                              <button type="submit" class=btn btn-default">TRACK</button>
+                          </div>
+
+
+                      </form>
                   </div>
 
               </div>
-
           </div>
       </div>
 
