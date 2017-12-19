@@ -3,39 +3,48 @@
 # Revision Notes:
 #   - Convert to python3
 #   - Create web-based UI
-#   - Integrate RPi servo control
 #
 import collections
-import ephem
-from flask import Flask, render_template
+import json
+from flask import Flask, render_template, request, url_for
+from .sat import Sat
 
 app = Flask(__name__)
+
+# Load tle data. Might need to put this in a separate function
+# and imported as a module.
+tle_data = {}
+with app.open_resource('static/textFiles/tle.txt', 'r') as infile:
+    while True:
+        l1 = infile.readline()
+        l2 = infile.readline() 
+        if not l2:
+            break
+        itlDesig = l1.split(" ")[2]
+        tle_data[itlDesig] = [l1, l2]
 
 # Main landing page
 @app.route('/')
 def homepage():
-
-    tleData = {}
-
-    # read the tle data
-    with app.open_resource('static/textFiles/tle.txt', 'r') as f:
-        while True:
-            l1 = f.readline()
-            l2 = f.readline()
-            if not l2:
-                break
-
-            itlDesig = l1.split(" ")[2]
-
-            tleData[itlDesig] = [l1, l2]
-
     return render_template('main.html',
             title = 'SAT TRACKER',
             temp = 'SAT SELECTION PAGE',
-            tle = tleData)
+            tle = tle_data)
 
 # Tracking page
-@app.route('/tracking/')
+@app.route('/tracking/', methods=['GET', 'POST'])
 def tracking():
-    return render_template('track.html')
+    itl_desig = request.form['itl_desig']
+
+    sat = Sat(itl_desig, tle_data[itl_desig][0], tle_data[itl_desig][1])
+
+    latitude, longitude = sat.get_position()
+    
+    sat_info = [itl_desig, latitude, longitude]
+
+    return render_template('track.html',
+            desig=sat_info[0],
+            lat=sat_info[1],
+            lon=sat_info[2],
+            info=json.dumps(sat_info))
 
