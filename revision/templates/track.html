@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+
+<!-- JS AMMAP LIB IMPORTS -->
+<script src="/static/ammap/ammap.js" type="text/javascript"></script>
+<script src="/static/ammap/themes/dark.js"></script>
+<link rel="stylesheet" href="/static/ammap/ammap.css" type="text/css" media="all" />
+
+<!-- insert js map -->
+<script src="/static/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" media"screen" href="/static/bootstrap.min.css">
+
+    <!-- Stylesheet -->
+    <style>
+    .top-buffer {
+        margin-top:20px;
+    }
+
+    .left-buffer {
+        margin-left:10px;
+    }
+
+    .bottom-buffer {
+        margin-bottom:5px;
+    }
+
+    body {
+        font-family:"Questrial", sans-serif;
+    }
+    </style>
+
+  </head>
+
+  <!-- BODY -->
+  <body>
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <h4 class="text-center">TRACKING</h4>
+          </div>
+      </div>
+
+
+
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col"></div>
+                  <div class="col"> 
+                      <!-- BEG MAP SCRIPT -->
+                      <!-- DIV THAT HOLDS THE MAP -->
+                      <div id="mapdiv" style="width: 800px; height: 600px;">
+                      <script type="text/javascript" src="/static/js/set_map.js"></script>
+                      <script type="text/javascript">
+                            get_info({{ info | safe }});
+                            make_map();
+                      </script>
+                      </div>
+                      <!-- END MAP SCRIPT -->
+                  </div>
+                  <div class="col"></div>
+
+              </div>
+          </div>
+
+          <!-- APP Navigation Buttons -->
+          <div class="top-buffer">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col"></div>
+                      International Designator: {{ desig }}
+                      <br>
+                      Latitude: {{ lat }}
+                      <br>
+                      Longitude: {{ lon }}
+                      <div class="col text-left"></div>
+                      <div class="col text-center">
+                           <a href="/"><button type="button" class="btn btn-info">Back</button></a>                     
+                      </div>
+                      <div class="col"></div>
+                      <div class="col"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </body>
+
+</html>
