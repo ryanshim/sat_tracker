@@ -11,6 +11,10 @@ class Sat:
         self.line1 = line1
         self.line2 = line2
 
+    # Returns the class attributes as a list
+    def get_satrec(self):
+        return [self.itlDesig, self.line1, self.line2]
+
     # Returns the object's current latitudinal and longitudinal coordinates
     def get_position(self):
         sat = ephem.readtle(self.itlDesig, self.line1, self.line2)

@@ -10,8 +10,19 @@
 var itl_desig = "test";
 var lat = "";
 var lon = "";
+var tle_line1 = "";
+var tle_line2 = "";
+var satrec = "";
 
-// Helper function to retrieve data from Flask backend
+// Helper function to retrieve tle data from backend
+function get_tle(tle_data) {
+    tle_line1 = tle_data[1];
+    tle_line2 = tle_data[2];
+    satrec = satellite.twoline2satrec(tle_line1, tle_line2);
+    console.log(tle_data);
+}
+
+// Helper function to retrieve data from backend
 function get_info(info) {
     itl_desig = info[0];
     lat = info[1];

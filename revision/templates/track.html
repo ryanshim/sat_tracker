@@ -7,6 +7,9 @@
 <script src="/static/ammap/themes/dark.js"></script>
 <link rel="stylesheet" href="/static/ammap/ammap.css" type="text/css" media="all" />
 
+<!-- JS SATELLITE-JS IMPORTS -->
+<script src="../static/node_modules/satellite.js/dist/satellite.min.js"></script>
+
 <!-- insert js map -->
 <script src="/static/ammap/maps/js/worldLow.js" type="text/javascript"></script>
 
@@ -60,6 +63,7 @@
                       <script type="text/javascript" src="/static/js/set_map.js"></script>
                       <script type="text/javascript">
                             get_info({{ info | safe }});
+                            get_tle({{ tle | safe }});
                             make_map();
                       </script>
                       </div>

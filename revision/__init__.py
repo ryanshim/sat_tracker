@@ -42,9 +42,12 @@ def tracking():
     
     sat_info = [itl_desig, latitude, longitude]
 
+    tle_raw = sat.get_satrec()
+
     return render_template('track.html',
             desig=sat_info[0],
             lat=sat_info[1],
             lon=sat_info[2],
-            info=json.dumps(sat_info))
+            info=json.dumps(sat_info),
+            tle=json.dumps(tle_raw))
 
