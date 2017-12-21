@@ -48,6 +48,5 @@ def tracking():
             desig=sat_info[0],
             lat=sat_info[1],
             lon=sat_info[2],
-            info=json.dumps(sat_info),
             tle=json.dumps(tle_raw))
 
