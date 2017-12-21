@@ -7,9 +7,6 @@
 // found at: https://github.com/shashwatak/satellite-js
 
 // Variable declarations
-var itl_desig = "test";
-var lat = "";
-var lon = "";
 var tle_line1 = "";
 var tle_line2 = "";
 var satrec = "";
@@ -18,20 +15,41 @@ var satrec = "";
 function get_tle(tle_data) {
     tle_line1 = tle_data[1];
     tle_line2 = tle_data[2];
-    satrec = satellite.twoline2satrec(tle_line1, tle_line2);
-    console.log(tle_data);
+    return [tle_line1, tle_line2];
 }
 
-// Helper function to retrieve data from backend
-function get_info(info) {
-    itl_desig = info[0];
-    lat = info[1];
-    lon = info[2];
-    console.log(info);
+// Conversion functions
+function deg2rad(degrees) {
+    return degrees * (Math.PI / 180);
+}
+
+function rad2deg(rads) {
+    return rads * (180 / Math.PI);
 }
 
 // Creates an instance of an Ammap chart
-function make_map() {
+function make_map(tle) {
+    var raw_tle = this.get_tle(tle);
+    var itl_desig = raw_tle[0].substring(9, 16);
+
+    var satrec = satellite.twoline2satrec(raw_tle[0], raw_tle[1]);  // init sat record
+    var positionAndVelocity = satellite.propagate(satrec, new Date());
+    
+    console.log(positionAndVelocity);   // state vectors; ECEF
+
+    var positionEci = positionAndVelocity.position;
+    var gmst = satellite.gstimeFromDate(new Date());    // readme uses fn:gstime()
+
+    var positionGd = satellite.eciToGeodetic(positionEci, gmst);
+
+    // positionGd.lat/lon returns in rads
+    var latitude = rad2deg(positionGd.latitude);
+    var longitude = rad2deg(positionGd.longitude);
+
+    console.log(latitude);
+    console.log(longitude);
+
+    // Map settings
     AmCharts.makeChart( "mapdiv", {
       "type": "map",
 
@@ -40,8 +58,8 @@ function make_map() {
         "getAreasFromMap": true,
         "images": [ {
             "title": itl_desig,
-            "latitude": lat,
-            "longitude": lon,
+            "latitude": latitude,
+            "longitude": longitude,
             "type": "circle",
             "color": "#000000"
         } ]
@@ -52,9 +70,6 @@ function make_map() {
         "selectedColor": "#CC0000"
       },
 
-      /**
-       * let's say we want a small map to be displayed, so let's create it
-       */
       "smallMap": {}
     } );
 }
