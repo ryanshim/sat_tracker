@@ -59,13 +59,11 @@
                   <div class="col"> 
                       <!-- BEG MAP SCRIPT -->
                       <!-- DIV THAT HOLDS THE MAP -->
-                      <div id="mapdiv" style="width: 800px; height: 600px;">
-                      <script type="text/javascript" src="/static/js/set_map.js"></script>
-                      <script type="text/javascript">
-                            get_info({{ info | safe }});
-                            get_tle({{ tle | safe }});
-                            make_map();
-                      </script>
+                      <div id="mapdiv" style="width: 600px; height: 400px;">
+                          <script type="text/javascript" src="/static/js/set_map.js"></script>
+                          <script type="text/javascript">
+                            make_map({{ tle | safe }});
+                          </script>
                       </div>
                       <!-- END MAP SCRIPT -->
                   </div>
