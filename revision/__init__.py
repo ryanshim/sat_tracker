@@ -36,7 +36,9 @@ def homepage():
 def tracking():
     itl_desig = request.form['itl_desig']
 
-    sat = Sat(itl_desig, tle_data[itl_desig][0], tle_data[itl_desig][1])
+    #sat = Sat(itl_desig, tle_data[itl_desig][0], tle_data[itl_desig][1])
+    sat = Sat("98067A", tle_data["98067A"][0], tle_data["98067A"][1])   # track iss for test
+
 
     latitude, longitude = sat.get_position()
     
@@ -45,7 +47,8 @@ def tracking():
     tle_raw = sat.get_satrec()
 
     return render_template('track.html',
-            desig=sat_info[0],
+            desig="98067A ISS (ZARYA)", # remove later
+            #desig=sat_info[0],
             lat=sat_info[1],
             lon=sat_info[2],
             tle=json.dumps(tle_raw))
