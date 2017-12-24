@@ -18,16 +18,18 @@ function get_tle(tle_data) {
     return [tle_line1, tle_line2];
 }
 
-function get_sat_path(l1, l2) {
-    var sat_lat = new Array(8);
-    var sat_lon = new Array(8);
-    var time = new Date();
+// Helper function that returns an image object for ammap with the previously
+// travelled path, future path, and current position
+function get_sat_path(desig, l1, l2) {
+    var track_period = 90;  // time to track
+    var images = [];
+    var sat_lat = [];
+    var sat_lon = [];
 
-    // each time step is 1 min; propagate for 1 hr
-    for (i = 0; i < 8; i++) {
-        time = new Date(time.setMinutes(time.getMinutes() + i));
+    for (var i = -track_period; i < track_period; i++) {
         var satrec = satellite.twoline2satrec(l1, l2);
-        var position_velocity = satellite.propagate(satrec, time);
+        var time = new Date();
+        var position_velocity = satellite.propagate(satrec, new Date(time.setMinutes(time.getMinutes() + i)));
         var positionEci = position_velocity.position;
         var gmst = satellite.gstimeFromDate(time);
         var positionGd = satellite.eciToGeodetic(positionEci, gmst);
@@ -44,7 +46,38 @@ function get_sat_path(l1, l2) {
         sat_lat.push(latitude);
         sat_lon.push(longitude);
     }
-    return [sat_lat, sat_lon];
+
+    // create images object for ammap plotting 
+    for (var j = 0; j < (track_period*2); j++) {
+        if (j < track_period) {
+            var color = "#00B1A9";  // traveled color
+        }
+        else {
+            var color = "#FFCC00";  // to travel
+        }
+
+        images.push( {
+            "type": "circle",
+            "width": 4,
+            "height": 4,
+            "color": color,
+            "latitude": sat_lat[j],
+            "longitude": sat_lon[j]
+        });
+    }
+
+    images.push( {  // push current position
+        "type": "circle",
+        "color": "#FF0000",
+        "title": desig,
+        "latitude": sat_lat[track_period],
+        "longitude": sat_lon[track_period]
+    });
+    
+    console.log(sat_lat[track_period]);
+    console.log(sat_lon[track_period]);
+
+    return images;
 }
 
 // Conversion functions
@@ -60,38 +93,18 @@ function rad2deg(rads) {
 function make_map(tle) {
     var raw_tle = this.get_tle(tle);
     var itl_desig = raw_tle[0].substring(9, 16);
-    var lats_lons = this.get_sat_path(raw_tle[0], raw_tle[1]);
 
-    // process array
-    lats_lons[0] = lats_lons[0].slice(8, 16);
-    lats_lons[1] = lats_lons[1].slice(8, 16);
-    latitude = lats_lons[0][0];
-    longitude = lats_lons[1][0];
-
-    console.log(lats_lons);
-    console.log(latitude);
-    console.log(longitude);
+    var sat_path = this.get_sat_path(itl_desig, raw_tle[0], raw_tle[1]);
 
     // Map settings; default projection = mercator
     AmCharts.makeChart( "mapdiv", {
       "type": "map",
+      "projection": "equirectangular",
 
       "dataProvider": {
         "map": "worldLow",
         "getAreasFromMap": true,
-        "images": [ {
-            "title": itl_desig,
-            "latitude": latitude,
-            "longitude": longitude,
-            "type": "circle",
-            "color": "#CC0000"
-        } ],
-
-        "lines": [ {
-            "latitudes": lats_lons[0],
-            "longitudes": lats_lons[1],
-            "color": "#FFCC00"
-        } ]
+        "images": sat_path
       },
 
       "areasSettings": {
