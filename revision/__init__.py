@@ -47,9 +47,9 @@ def tracking():
     tle_raw = sat.get_satrec()
 
     return render_template('track.html',
-            desig="98067A ISS (ZARYA)", # remove later
+            #desig="98067A ISS (ZARYA)", # remove later
             #desig=sat_info[0],
-            lat=sat_info[1],
-            lon=sat_info[2],
+            #lat=sat_info[1],
+            #lon=sat_info[2],
             tle=json.dumps(tle_raw))
 
