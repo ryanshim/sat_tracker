@@ -73,9 +73,6 @@ function get_sat_path(desig, l1, l2) {
         "latitude": sat_lat[track_period],
         "longitude": sat_lon[track_period]
     });
-    
-    console.log(sat_lat[track_period]);
-    console.log(sat_lon[track_period]);
 
     return images;
 }
