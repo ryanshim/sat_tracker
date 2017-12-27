@@ -49,9 +49,6 @@
               <h4 class="text-center">TRACKING</h4>
           </div>
       </div>
-
-
-
       <div class="top-buffer">
           <div class="container-fluid">
               <div class="row">
@@ -62,7 +59,7 @@
                       <div id="mapdiv" style="width: 600px; height: 400px; background-color: #001A39;">
                           <script type="text/javascript" src="/static/js/set_map.js"></script>
                           <script type="text/javascript">
-                            make_map({{ tle | safe }});
+                                make_map({{ tle | safe }});
                           </script>
                       </div>
                       <!-- END MAP SCRIPT -->
@@ -75,21 +72,36 @@
           <!-- APP Navigation Buttons -->
           <div class="top-buffer">
               <div class="container-fluid">
+                  <script type="text/javascript" src="/static/js/sat_info.js"></script>
                   <div class="row">
 
                       <div class="col" id="orbit-info-left">
-                          <script type="text/javascript" src="/static/js/sat_info.js"></script>
                           <script type="text/javascript">
-                                get_orbit_stats({{ tle | safe }});
+                                get_orbit_stats_left({{ tle | safe }});
                           </script>                     
                       </div>
                       <div class="col text-left"></div>
-                      <div class="col text-center">
-                           <a href="/"><button type="button" class="btn btn-info">Back</button></a>                     
-                      </div>
+                      <div class="col text-center"></div>
                       <div class="col"></div>
-                      <div class="col" id="orbit-info-right"></div>
+                      <div class="col" id="orbit-info-right">
+                          <script type="text/javascript">
+                                get_orbit_stats_right({{ tle | safe }});
+                          </script>
+                      </div>
                   </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- APP Navigation Buttons -->
+      <div class="top-buffer">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-sm-4"></div>
+                  <div class="col-sm-4 text-center">
+                      <a href="/"><button type="button" class="btn btn-info">Back</button></a>
+                  </div>
+                  <div class="col-sm-4"></div>
               </div>
           </div>
       </div>

@@ -36,19 +36,23 @@ function calc_orbit(tle_data) {
     return [positionEci, velocityEci, latitude, longitude, height];
 }
 
-function get_orbit_stats(tle) {
+function get_orbit_stats_left(tle) {
     var tle_raw = this.retrieve_tle(tle);
-
     var stats = this.calc_orbit(tle_raw);
-
     var html_left = "<h5>GEODETIC</h5>" + "\n" +
                     "<p>INT'L DESIGNATOR: " + tle[0] + "<br>" + 
-                    "LATITUDE: " + stats[2] + "<br>" + 
-                    "LONGITUDE: " + stats[3] + "</p>" +
-                    "<h5>STATE VECTORS</h5>" + 
-                    "X: " + stats[0].x + "<br>" + 
-                    "Y: " + stats[0].y + "<br>" +
-                    "Z: " + stats[0].z + "</p>"; 
-
+                    "LATITUDE: " + stats[2].toPrecision(4) + "&deg;<br>" + 
+                    "LONGITUDE: " + stats[3].toPrecision(4) + "&deg;<br>" +
+                    "ALTITUDE: " + stats[4].toPrecision(4) + " km.</p>"; 
     document.getElementById("orbit-info-left").innerHTML += html_left;
+}
+
+function get_orbit_stats_right(tle) {
+    var tle_raw = this.retrieve_tle(tle);
+    var stats = this.calc_orbit(tle_raw);
+    var html_right =    "<h5>STATE VECTORS</h5>" + 
+                        "X: " + stats[0].x.toPrecision(6) + " m.<br>" + 
+                        "Y: " + stats[0].y.toPrecision(6) + " m.<br>" +
+                        "Z: " + stats[0].z.toPrecision(6) + " m.</p>"; 
+    document.getElementById("orbit-info-right").innerHTML += html_right;
 }
