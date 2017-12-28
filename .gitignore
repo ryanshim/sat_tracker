@@ -87,3 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Cesium
+revision/static/Cesium-1.40/
