@@ -53,3 +53,8 @@ def tracking():
             #lon=sat_info[2],
             tle=json.dumps(tle_raw))
 
+# Cesium Globe page
+@app.route('/cesium_track/')
+def ces_track():
+    return render_template('cesium_test.html')
+

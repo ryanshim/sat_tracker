@@ -90,7 +90,6 @@ function rad2deg(rads) {
 function make_map(tle) {
     var raw_tle = this.get_tle(tle);
     var itl_desig = raw_tle[0].substring(9, 16);
-
     var sat_path = this.get_sat_path(itl_desig, raw_tle[0], raw_tle[1]);
 
     // Map settings; default projection = mercator
@@ -114,4 +113,3 @@ function make_map(tle) {
       "smallMap": {}
     } );
 }
-

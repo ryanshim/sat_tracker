@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+
+<!-- JS CESIUM LIB IMPORTS -->
+
+<!-- insert js map -->
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" media"screen" href="/static/bootstrap.min.css">
+
+    <!-- Stylesheet -->
+    <style>
+    .top-buffer {
+        margin-top:20px;
+    }
+
+    .left-buffer {
+        margin-left:10px;
+    }
+
+    .bottom-buffer {
+        margin-bottom:5px;
+    }
+
+    body {
+        font-family:"Questrial", sans-serif;
+    }
+    </style>
+
+  </head>
+
+  <!-- BODY -->
+  <body>
+      <script src="../static/Cesium-1.40/Build/Cesium/Cesium.js"></script>
+      <style>
+            @import url(../static/Cesium-1.40/Build/Cesium/Widgets/widgets.css);
+            html, body, #cesiumContainer {
+                width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+            }
+      </style>
+
+      <div id="cesiumContainer"></div>
+      <script>
+        var viewer = new Cesium.Viewer('cesiumContainer');
+      </script>
+  </body>
+
+</html>
