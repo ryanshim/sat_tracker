@@ -2,7 +2,8 @@
 <html lang="en">
 <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
 
-<!-- JS CESIUM LIB IMPORTS -->
+<!-- SATELLITE-JS IMPORTS -->
+<script src="../static/node_modules/satellite.js/dist/satellite.min.js"></script>
 
 <!-- insert js map -->
 
@@ -46,9 +47,13 @@
       </style>
 
       <div id="cesiumContainer"></div>
-      <script>
-        var viewer = new Cesium.Viewer('cesiumContainer');
+
+      <!-- plotting points goes here -->
+      <script type="text/javascript" src="../static/js/ces_test.js"></script>
+      <script type="text/javascript">
+        plot_all({{ pos_arr | safe }})
       </script>
+
   </body>
 
 </html>

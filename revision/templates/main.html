@@ -55,7 +55,8 @@
               <div class="container-fluid">
 
                   <div class="form-group">
-                      <form action="/tracking/" class="form-horizontal" method="POST">
+                      <!-- <form action="/tracking/" class="form-horizontal" method="POST"> -->
+                      <form action="/cesium_track/" class="form-horizontal" method="POST">
 
                           <div class="form-group">
                               <select name="itl_desig">
@@ -66,10 +67,15 @@
                               </select>
                           </div>
 
+                          <!--
                           <div class="form-group">
                               <button type="submit" class="btn btn-default">TRACK</button>
                           </div>
+                          -->
 
+                          <div class="form-group"> 
+                              <button type="submit" class="btn btn-info">CESIUM TRACK</button>
+                          </div>
 
                       </form>
                   </div>
@@ -82,7 +88,6 @@
       <div class="top-buffer">
           <div class="left-buffer">
               <div class="container-fluid">
-                  <a href="/cesium_track/"><button type="button" class="btn btn-info">CESIUM TRACK</button></a>
               </div>
           </div>
       </div>

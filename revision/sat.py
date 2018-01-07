@@ -21,4 +21,5 @@ class Sat:
         sat.compute()   # date ommitted; uses now()
         latitude = np.degrees(sat.sublat)
         longitude = np.degrees(sat.sublong)
-        return latitude, longitude
+        height = sat.elevation
+        return latitude, longitude, height

@@ -17,11 +17,12 @@ tle_data = {}
 with app.open_resource('static/textFiles/tle.txt', 'r') as infile:
     while True:
         l1 = infile.readline()
-        l2 = infile.readline() 
+        l2 = infile.readline()
         if not l2:
             break
         itlDesig = l1.split(" ")[2]
         tle_data[itlDesig] = [l1, l2]
+del tle_data[""]
 
 # Main landing page
 @app.route('/')
@@ -39,7 +40,6 @@ def tracking():
     #sat = Sat(itl_desig, tle_data[itl_desig][0], tle_data[itl_desig][1])
     sat = Sat("98067A", tle_data["98067A"][0], tle_data["98067A"][1])   # track iss for test
 
-
     latitude, longitude = sat.get_position()
     
     sat_info = [itl_desig, latitude, longitude]
@@ -54,7 +54,14 @@ def tracking():
             tle=json.dumps(tle_raw))
 
 # Cesium Globe page
-@app.route('/cesium_track/')
+@app.route('/cesium_track/', methods=['GET', 'POST'])
 def ces_track():
-    return render_template('cesium_test.html')
+    positions = []
 
+    for k,v in tle_data.items():
+        sat = Sat(k, v[0], v[1])
+        lat, lon, height = sat.get_position()
+        positions.append([lat, lon, height])
+
+    return render_template('cesium_test.html', 
+            pos_arr=json.dumps(positions))
