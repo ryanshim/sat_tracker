@@ -11,19 +11,7 @@ from .sat import Sat
 
 app = Flask(__name__)
 
-# Load tle data. Might need to put this in a separate function
-# and imported as a module.
-tle_data = {}
-with app.open_resource('static/textFiles/tle.txt', 'r') as infile:
-    while True:
-        l1 = infile.readline()
-        l2 = infile.readline()
-        if not l2:
-            break
-        itlDesig = l1.split(" ")[2]
-        tle_data[itlDesig] = [l1, l2]
-del tle_data[""]
-
+'''
 # Main landing page
 @app.route('/')
 def homepage():
@@ -52,11 +40,23 @@ def tracking():
             #lat=sat_info[1],
             #lon=sat_info[2],
             tle=json.dumps(tle_raw))
+'''
 
 # Cesium Globe page
-@app.route('/cesium_track/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def ces_track():
     positions = []
+    tle_data = {}
+
+    with app.open_resource('static/textFiles/tle.txt', 'r') as infile:
+        while True:
+            l1 = infile.readline()
+            l2 = infile.readline()
+            if not l2:
+                break
+            itlDesig = l1.split(" ")[2]
+            tle_data[itlDesig] = [l1, l2]
+        del tle_data[""]
 
     for k,v in tle_data.items():
         sat = Sat(k, v[0], v[1])
