@@ -4,6 +4,7 @@
 #   - Convert to python3
 #   - Create web-based UI
 #
+import sqlite3
 import collections
 import json
 from flask import Flask, render_template, request, url_for
@@ -46,22 +47,22 @@ def tracking():
 @app.route('/', methods=['GET', 'POST'])
 def ces_track():
     positions = []
-    tle_data = {}
+    error_count = 0
 
-    with app.open_resource('static/textFiles/tle.txt', 'r') as infile:
-        while True:
-            l1 = infile.readline()
-            l2 = infile.readline()
-            if not l2:
-                break
-            itlDesig = l1.split(" ")[2]
-            tle_data[itlDesig] = [l1, l2]
-        del tle_data[""]
+    conn = sqlite3.connect('./static/data/tle.db')
+    c = conn.cursor()
 
-    for k,v in tle_data.items():
-        sat = Sat(k, v[0], v[1])
-        lat, lon, height = sat.get_position()
+    for row in c.execute('SELECT * FROM tles'):
+        sat = Sat(row[0], row[1], row[2])
+        try:
+            lat, lon, height = sat.get_position()
+        except:
+            error_count += 1
+            pass
         positions.append([lat, lon, height])
+    
+    conn.close()
+    print(error_count)
 
     return render_template('cesium_test.html', 
             pos_arr=json.dumps(positions))
