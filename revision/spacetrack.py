@@ -50,23 +50,5 @@ def get_tle_data():
 
     conn.close()
 
-'''
-load saved data to dictionary
-Dictionary format: satDict[int'lDesignator] = Satellite object
-'''
-def parse_tle_data():
-    satDict = {} 
-    with open('tle.txt', 'r') as inFile:
-        while True:
-            l1 = inFile.readline()
-            l2 = inFile.readline()
-            if not l2:  # reached eof
-                break
-            # use int'l designator as key
-            itlDesig = l1.split(" ")[2]
-            satDict[itlDesig] = Satellite(itlDesig, l1, l2)
-
-    return satDict
-
 if __name__ == '__main__':
     get_tle_data()
