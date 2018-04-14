@@ -8,11 +8,6 @@ import json
 from flask import Flask, render_template, request, url_for
 from .sat import Sat
 
-# for ISS tracking
-import ephem
-import datetime
-import numpy as np
-
 app = Flask(__name__)
 
 # Cesium Globe page
@@ -35,28 +30,16 @@ def ces_track():
         positions.append([lat, lon, height])
 
     # Retrieve ISS tle
-    iss_tle = []
+    iss_data = []
     for row in c.execute("SELECT * FROM tles WHERE itl_desig = '98067A  '"):
-        iss_tle = row
+        iss_data = row
     
     conn.close()
     print(error_count)
 
-    # Get points to plot ISS path
-    base = datetime.datetime.today()
-    t_delta = [base - datetime.timedelta(minutes=x) for x in range(-30, 90)]
-
-    # Compute iss orbit positions
-    iss = ephem.readtle(iss_tle[0], iss_tle[1], iss_tle[2])
-    for time in t_delta:
-        iss.compute(time)
-        iss_positions.append(np.degrees(iss.sublong))
-        iss_positions.append(np.degrees(iss.sublat))
-        iss_positions.append(iss.elevation)
-
     return render_template('cesium_test.html', 
             pos_arr=json.dumps(positions),
-            iss_pos=json.dumps(iss_positions))
+            iss_tle=json.dumps(iss_data))
 
 '''
 # Main landing page
