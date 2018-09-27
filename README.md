@@ -1,5 +1,7 @@
 # sat_tracker
 
+![alt text](https://github.com/ryanshim/sat_tracker/blob/master/sats.png)
+
 ## Dependencies
 - Pyephem
 - sgp4
