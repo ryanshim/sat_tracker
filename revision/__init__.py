@@ -6,10 +6,19 @@ import sqlite3
 import collections
 import json
 from flask import Flask, render_template, request, url_for
-from .sat import Sat
+#from .sat import Sat
 
 app = Flask(__name__)
 
+# Main landing page
+@app.route('/')
+def homepage():
+
+    return render_template('main.html',
+            title = 'SAT TRACKER',
+            temp = 'Select a satellite by Intl. Designator: ')
+
+'''
 # Cesium Globe page
 @app.route('/', methods=['GET', 'POST'])
 def ces_track():
@@ -40,16 +49,9 @@ def ces_track():
     return render_template('cesium_test.html', 
             pos_arr=json.dumps(positions),
             iss_tle=json.dumps(iss_data))
+'''
 
 '''
-# Main landing page
-@app.route('/')
-def homepage():
-    return render_template('main.html',
-            title = 'SAT TRACKER',
-            temp = 'SAT SELECTION PAGE',
-            tle = tle_data)
-
 # Tracking page
 @app.route('/tracking/', methods=['GET', 'POST'])
 def tracking():
