@@ -1,0 +1,23 @@
+.top-buffer {
+    margin-top:20px;
+}
+
+.left-buffer {
+    margin-left:10px;
+}
+
+.bottom-buffer {
+    margin-bottom:5px;
+}
+
+#satInputGroupSelect {
+    background-color:grey;
+}
+
+#satInputBtn {
+    background-color:grey;
+}
+body {
+    font-family:"Questrial", sans-serif;
+}
+

@@ -18,5 +18,3 @@ def calc_sv(l1, l2):
     a = (math.pow(std_grav, (1/3))) / (math.pow(mean_motion, (2/3)))
 
     # Calc eccentric anomaly, EA using Newton's method
-
-def calc_

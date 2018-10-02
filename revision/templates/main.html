@@ -10,27 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-
-
-    <!-- Stylesheet -->
-    <style>
-    .top-buffer {
-        margin-top:20px;
-    }
-
-    .left-buffer {
-        margin-left:10px;
-    }
-
-    .bottom-buffer {
-        margin-bottom:5px;
-    }
-
-    body {
-        font-family:"Questrial", sans-serif;
-    }
-    </style>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/static/css/stylesheet_main.css">
 
   </head>
 
@@ -43,7 +24,7 @@
                   <div class="col">
                   </div>
                   <div class="col">
-                      <h4 class="text-left"> {{ temp }} </h4>
+                      <h4 class="text-left"> {{ title }} </h4>
                   </div>
                   <div class="col">
                   </div>
@@ -51,24 +32,18 @@
           </div>
       </div>
 
-      <!-- Create a satellite dropdown -->
+      <!-- Create a satellite selection via Intl Desig -->
       <div class="container-fluid">
           <div class="row">
-              <div class="col-md-4"></div>
-              <div class="col-md-4">
+              <div class="col-lg-6">
                   <div class="input-group">
-                      <select class="custom-select" id="satInputGroupSelect">
-                          <option selected>Select Satellite</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                      </select>
-                      <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button">Button</button>
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">{{ lbl_sat_select }}</span>
                       </div>
                   </div>
+                  <textarea class="form-control" aria-label="With textarea"></textarea>
               </div>
-              <div class="col-md-4"></div>
+              <div class="col-lg-6"></div>
           </div>
 
       </div>

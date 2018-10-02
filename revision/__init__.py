@@ -13,10 +13,22 @@ app = Flask(__name__)
 # Main landing page
 @app.route('/')
 def homepage():
+    satellites = []
+
+    conn = sqlite3.connect('./static/data/tle.db')
+    c = conn.cursor()
+
+    for row in c.execute('SELECT * FROM tles'):
+        satellites.append(row[0])
+
+    conn.close()
+
+    print(satellites)
 
     return render_template('main.html',
-            title = 'SAT TRACKER',
-            temp = 'Select a satellite by Intl. Designator: ')
+            title = 'SATELLITE TRACKING',
+            lbl_sat_select = 'Select a satellite by Intl. Designator: ',
+            lst_itl_desig = satellites)
 
 '''
 # Cesium Globe page
