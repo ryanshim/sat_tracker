@@ -39,7 +39,7 @@ def get_tle_data():
 
     # extract int'l designator and insert into database
     for i in range(0, len(output), 2):
-        itl_desig = output[i][9:17]
+        itl_desig = output[i][9:17].rstrip()
         line1 = output[i]
         line2 = output[i+1]
         row = (itl_desig, line1, line2)
