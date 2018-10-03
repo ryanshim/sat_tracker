@@ -35,17 +35,20 @@
       <!-- Create a satellite selection via Intl Desig -->
       <div class="container-fluid">
           <div class="row">
-              <div class="col-lg-6">
-                  <div class="input-group">
-                      <div class="input-group-prepend">
-                          <span class="input-group-text">{{ lbl_sat_select }}</span>
-                      </div>
+              <div class="col-lg-3">Search by International Designator: </div>
+              <div class="col-lg-3">
+                   <div class="input-group">
+                      <input type="text" class="form-control" id="intl_desig_form" placeholder="Search for...">
+                      <form method="post">
+                          <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                      </form>
                   </div>
-                  <textarea class="form-control" aria-label="With textarea"></textarea>
               </div>
-              <div class="col-lg-6"></div>
+              <div class="col-lg-3"></div>
+              <div class="col-lg-3"></div>
           </div>
-
       </div>
 
 
@@ -53,8 +56,12 @@
       <div class="top-buffer">
           <div class="left-buffer">
               <div class="container-fluid">
+                  <div class="row">
+                  </div>
               </div>
           </div>
       </div>
+
+
   </body>
 </html>

@@ -11,8 +11,14 @@ from flask import Flask, render_template, request, url_for
 app = Flask(__name__)
 
 # Main landing page
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
+
+    if request.method == 'POST':
+        intl_desig = request.form.get('intl_desig_form')
+        print(intl_desig)
+
+    '''
     satellites = []
 
     conn = sqlite3.connect('./static/data/tle.db')
@@ -24,11 +30,37 @@ def homepage():
     conn.close()
 
     print(satellites)
+    '''
 
     return render_template('main.html',
-            title = 'SATELLITE TRACKING',
-            lbl_sat_select = 'Select a satellite by Intl. Designator: ',
-            lst_itl_desig = satellites)
+            title = 'SATELLITE TRACKING')
+
+
+# Handle Intl Designator Search
+@app.route('/button', methods=['GET', 'POST'])
+def intl_desig_search():
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '''
 # Cesium Globe page
