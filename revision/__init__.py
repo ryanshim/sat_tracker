@@ -11,35 +11,37 @@ from flask import Flask, render_template, request, url_for
 app = Flask(__name__)
 
 # Main landing page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def homepage():
-
-    if request.method == 'POST':
-        intl_desig = request.form.get('intl_desig_form')
-        print(intl_desig)
-
-    '''
-    satellites = []
-
-    conn = sqlite3.connect('./static/data/tle.db')
-    c = conn.cursor()
-
-    for row in c.execute('SELECT * FROM tles'):
-        satellites.append(row[0])
-
-    conn.close()
-
-    print(satellites)
-    '''
-
     return render_template('main.html',
-            title = 'SATELLITE TRACKING')
+            title = 'SATELLITE TRACKING',
+            intl_desig ="",
+            tle_l1 = "",
+            tle_l2 = "")
 
 
 # Handle Intl Designator Search
-@app.route('/button', methods=['GET', 'POST'])
+@app.route('/track', methods=['GET','POST'])
 def intl_desig_search():
-    pass
+    if request.method == 'POST':
+        desig = request.form.get('intl_desig_input')
+
+        conn = sqlite3.connect('./static/data/tle.db')
+        c = conn.cursor()
+
+        query = "SELECT * FROM tles WHERE itl_desig = '" + desig + "'"
+
+        for row in c.execute(query):
+            l1 = row[1]
+            l2 = row[2]
+
+        conn.close()
+
+        return render_template('main.html',
+                title = 'SATELLITE TRACKING',
+                intl_desig = desig,
+                tle_l1 = l1,
+                tle_l2 = l2)
 
 
 

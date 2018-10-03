@@ -24,7 +24,7 @@
                   <div class="col">
                   </div>
                   <div class="col">
-                      <h4 class="text-left"> {{ title }} </h4>
+                      <h4 class="text-center" id="main_title"> {{ title }} </h4>
                   </div>
                   <div class="col">
                   </div>
@@ -35,22 +35,22 @@
       <!-- Create a satellite selection via Intl Desig -->
       <div class="container-fluid">
           <div class="row">
-              <div class="col-lg-3">Search by International Designator: </div>
-              <div class="col-lg-3">
-                   <div class="input-group">
-                      <input type="text" class="form-control" id="intl_desig_form" placeholder="Search for...">
-                      <form method="post">
-                          <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                      </form>
-                  </div>
+              <div class="col-md-3">
+                  <div class="pull-right" id="intl_desig_lbl">Search by International Designator:</div>
               </div>
-              <div class="col-lg-3"></div>
-              <div class="col-lg-3"></div>
+              <div class="col-md-2">
+                  <form action="/track" method="POST">
+                      <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
+                      <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
+                  </form>
+              </div>
+              <div class="col-md">
+                  <p>INTERNATIONAL DESIGNATOR: {{ intl_desig }}</p>
+                  <p>LINE 1: {{ tle_l1 }}</p>
+                  <p>LINE 2: {{ tle_l2 }}</p>
+              </div>
           </div>
       </div>
-
 
       <!-- Display Information -->
       <div class="top-buffer">
