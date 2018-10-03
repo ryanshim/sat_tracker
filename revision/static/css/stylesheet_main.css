@@ -10,14 +10,25 @@
     margin-bottom:5px;
 }
 
-#satInputGroupSelect {
-    background-color:grey;
+#main_title {
+    color:White;
 }
 
-#satInputBtn {
-    background-color:grey;
+#intl_desig_form {
+    color:White;
+    background-color:DarkSlateGrey;
 }
+
+#intl_desig_btn {
+    color:White;
+    background-color:DarkSlateGrey;
+}
+
+#intl_desig_lbl {
+    color:White;
+}
+
 body {
     font-family:"Questrial", sans-serif;
+    background-color:Black;
 }
-
