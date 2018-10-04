@@ -1,16 +1,16 @@
 // Provides orbit information outside of map.
 //
 
-var tle_line1 = "";
-var tle_line2 = "";
+let tle_line1 = "";
+let tle_line2 = "";
+
+function rad2deg(x) {
+    return x * 180 / Math.PI;
+}
 
 function retrieve_tle(tle_data) {
     tle_line1 = tle_data[1];
     tle_line2 = tle_data[2];
-    
-    console.log(tle_line1);
-    console.log(tle_line2);
-
     return [tle_line1, tle_line2];
 }
 
@@ -27,8 +27,8 @@ function calc_orbit(tle_data) {
     var gmst = satellite.gstimeFromDate(time);
     var positionGd = satellite.eciToGeodetic(positionEci, gmst);
     var height = positionGd.height;
-    var latitude = rad2deg(positionGd.latitude);
-    var longitude = rad2deg(positionGd.longitude);
+    var latitude = this.rad2deg(positionGd.latitude);
+    var longitude = this.rad2deg(positionGd.longitude);
 
     if (longitude < 180) {  // for map degree conversion
         longitude += 360;
@@ -55,8 +55,8 @@ function get_orbit_stats_right(tle) {
     var tle_raw = this.retrieve_tle(tle);
     var stats = this.calc_orbit(tle_raw);
     var html_right =    "<h5>STATE VECTORS</h5>" + 
-                        "X: " + stats[0].x.toPrecision(6) + " m.<br>" + 
-                        "Y: " + stats[0].y.toPrecision(6) + " m.<br>" +
-                        "Z: " + stats[0].z.toPrecision(6) + " m.</p>"; 
+                        "X: " + stats[0].x.toPrecision(6) + " m.\t\t" + stats[1].x + "<br>" + 
+                        "Y: " + stats[0].y.toPrecision(6) + " m.\t\t" + stats[1].y + "<br>" +
+                        "Z: " + stats[0].z.toPrecision(6) + " m.\t\t" + stats[1].z + "</p>"; 
     document.getElementById("orbit-info-right").innerHTML += html_right;
 }

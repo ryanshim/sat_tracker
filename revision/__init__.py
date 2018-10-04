@@ -15,9 +15,9 @@ app = Flask(__name__)
 def homepage():
     return render_template('main.html',
             title = 'SATELLITE TRACKING',
-            intl_desig ="",
-            tle_l1 = "",
-            tle_l2 = "")
+            intl_desig = '',
+            tle_l1 = '',
+            tle_l2 = '')
 
 
 # Handle Intl Designator Search
@@ -38,6 +38,7 @@ def intl_desig_search():
         # Strip the carriage return
         l1 = l1[:-1]
         l2 = l2[:-1]
+        tle_data = [desig, l1, l2]
 
         return render_template('main.html',
                 title = 'SATELLITE TRACKING',
