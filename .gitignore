@@ -89,4 +89,7 @@ ENV/
 .ropeproject
 
 # Cesium
-revision/static/Cesium-1.40/
+revision/static/Cesium-1.4*
+
+# Installed JS Packages
+revision/static/node_modules
