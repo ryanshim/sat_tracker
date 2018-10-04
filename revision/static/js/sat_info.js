@@ -7,6 +7,10 @@ var tle_line2 = "";
 function retrieve_tle(tle_data) {
     tle_line1 = tle_data[1];
     tle_line2 = tle_data[2];
+    
+    console.log(tle_line1);
+    console.log(tle_line2);
+
     return [tle_line1, tle_line2];
 }
 

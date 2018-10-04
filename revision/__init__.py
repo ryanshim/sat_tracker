@@ -26,16 +26,18 @@ def intl_desig_search():
     if request.method == 'POST':
         desig = request.form.get('intl_desig_input')
 
+        # Search for satellite in db by international designator
         conn = sqlite3.connect('./static/data/tle.db')
         c = conn.cursor()
-
         query = "SELECT * FROM tles WHERE itl_desig = '" + desig + "'"
-
         for row in c.execute(query):
             l1 = row[1]
             l2 = row[2]
-
         conn.close()
+
+        # Strip the carriage return
+        l1 = l1[:-1]
+        l2 = l2[:-1]
 
         return render_template('main.html',
                 title = 'SATELLITE TRACKING',

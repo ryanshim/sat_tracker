@@ -13,6 +13,12 @@
     <!-- import stylesheet -->
     <link rel="stylesheet" type="text/css" href="/static/css/stylesheet_main.css">
 
+    <!-- import satellite.js -->
+    <script src="/static/node_modules/satellite.js/dist/satellite.js"></script>
+
+    <!-- import sat_info.js script -->
+    <script type="text/javascript" src="../static/js/sat_info.js"></script>
+
   </head>
 
   <!-- BODY -->
@@ -44,7 +50,7 @@
                       <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
                   </form>
               </div>
-              <div class="col-md">
+              <div class="col-md" style="color:White">
                   <p>INTERNATIONAL DESIGNATOR: {{ intl_desig }}</p>
                   <p>LINE 1: {{ tle_l1 }}</p>
                   <p>LINE 2: {{ tle_l2 }}</p>
@@ -58,8 +64,13 @@
               <div class="container-fluid">
                   <div class="row">
                       <!-- Orbit Information Here -->
-                      <div class="col-md-6">
-
+                      <div class="col-md-6" id="orbit-info-left">
+    <script>
+        let l1 = '{{ tle_l1 }}';
+        let l2 = '{{ tle_l2 }}';
+        let tle_arr = [l1, l2];
+        get_orbit_stats_left(tle_arr);
+    </script>
                       </div>
 
                       <!-- Miller Projection Here -->
