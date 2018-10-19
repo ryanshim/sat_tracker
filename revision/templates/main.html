@@ -5,6 +5,9 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+<!-- Latest compiled and minified three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js" type="text/javascript"></script>
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -43,7 +46,7 @@
                       <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
                   </form>
               </div>
-              <div class="col-md">
+              <div class="col-md text-left">
                   <p>INTERNATIONAL DESIGNATOR: {{ intl_desig }}</p>
                   <p>LINE 1: {{ tle_l1 }}</p>
                   <p>LINE 2: {{ tle_l2 }}</p>
@@ -63,8 +66,6 @@
                       <script src="/static/js/sat_info.js"></script>
 
                       
-
-                      <div class="col-md-2"></div>
                       <!-- Orbit Information Here -->
                       <div class="col-md-2" id="orbit-info-left">
                           <script>
@@ -84,6 +85,8 @@
                              get_orbit_stats_right(arr_tle);
                           </script>
                       </div>
+
+                      <div class="col-md-2"></div>
 
                       <!-- Miller Projection Here -->
                       <div class="col-md-6">

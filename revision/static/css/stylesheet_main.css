@@ -33,3 +33,13 @@ body {
     background-color:Black;
     color:White;
 }
+
+h6 {
+    color:White;
+    font-weight:bolder;
+}
+
+h5 {
+    color:White;
+    font-weight:bold;
+}

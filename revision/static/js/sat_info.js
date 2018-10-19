@@ -1,5 +1,4 @@
 // Provides orbit information outside of map.
-//
 
 let tle_line1 = "";
 let tle_line2 = "";
@@ -54,9 +53,27 @@ function get_orbit_stats_left(tle) {
 function get_orbit_stats_right(tle) {
     var tle_raw = this.retrieve_tle(tle);
     var stats = this.calc_orbit(tle_raw);
-    var html_right =    "<h5>STATE VECTORS</h5>" + 
-                        "X: " + stats[0].x.toPrecision(6) + " m.\t\t" + stats[1].x + "<br>" + 
-                        "Y: " + stats[0].y.toPrecision(6) + " m.\t\t" + stats[1].y + "<br>" +
-                        "Z: " + stats[0].z.toPrecision(6) + " m.\t\t" + stats[1].z + "</p>"; 
-    document.getElementById("orbit-info-right").innerHTML += html_right;
+
+    var html_right_hdr = "<h5>STATE VECTORS</h5>";
+
+    var html_right_1 =  "<h6>POSITION VECTORS:</h6>" +
+                        "X: " + stats[0].x.toPrecision(6) + " m." + "<br>" +
+                        "Y: " + stats[0].y.toPrecision(6) + " m." + "<br>" +
+                        "Z: " + stats[0].z.toPrecision(6) + " m." + "<br>";
+
+    var html_right_2 =  "<h6>VELOCITY VECTORS:</h6>" +
+                        "X: " + stats[1].x + " m." + "<br>" +
+                        "Y: " + stats[1].y + " m." + "<br>" +
+                        "Z: " + stats[1].z + " m." + "<br>";
+    var column_open1 = "<div class='col-md-2'>";
+    var column_close1 = "</div>";
+
+    document.getElementById("orbit-info-right").innerHTML += html_right_hdr;
+    document.getElementById("orbit-info-right").innerHTML += column_open1;
+    document.getElementById("orbit-info-right").innerHTML += html_right_1;
+    document.getElementById("orbit-info-right").innerHTML += column_close1;;
+
+    document.getElementById("orbit-info-right").innerHTML += column_open1;
+    document.getElementById("orbit-info-right").innerHTML += html_right_2;
+    document.getElementById("orbit-info-right").innerHTML += column_close1;
 }
