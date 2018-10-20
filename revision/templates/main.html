@@ -37,19 +37,36 @@
       <!-- Create a satellite selection via Intl Desig -->
       <div class="container-fluid">
           <div class="row">
-              <div class="col-md-3">
+
+              <!-- Intl Desig Input Header -->
+              <div class="col-md-2">
                   <div class="pull-right" id="intl_desig_lbl">Search by International Designator:</div>
               </div>
+
+              <!-- Intl Desig Input -->
               <div class="col-md-2">
-                  <form action="/track" method="POST">
-                      <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
-                      <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
-                  </form>
+                  <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
               </div>
-              <div class="col-md text-left">
-                  <p>INTERNATIONAL DESIGNATOR: {{ intl_desig }}</p>
-                  <p>LINE 1: {{ tle_l1 }}</p>
-                  <p>LINE 2: {{ tle_l2 }}</p>
+
+              <!-- Track Button -->
+              <div class="col-md-2">
+                   <form action="/track" method="POST">
+                      <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
+                  </form>             
+              </div>
+
+          <!-- TLE Data -->
+              <div class="col-md-6">
+                  <div class="col-md-4 text-right">
+                      INTERNATIONAL DESIGNATOR:<br>
+                      LINE 1:<br>
+                      LINE 2:<br>
+                  </div>
+                  <div class="col-md-8">
+                      {{ intl_desig }}<br>
+                      {{ tle_l1 }}<br>
+                      {{ tle_l2 }}<br>
+                  </div>
               </div>
           </div>
       </div>
@@ -76,7 +93,7 @@
                              get_orbit_stats_left(arr_tle);
                           </script>                     
                       </div>
-                      <div class="col-md-2" id="orbit-info-right">
+                      <div class="col-md-3" id="orbit-info-right">
                           <script>
                              var desig = '{{ intl_desig }}';
                              var l1 = '{{ tle_l1 }}';
@@ -86,11 +103,8 @@
                           </script>
                       </div>
 
-                      <div class="col-md-2"></div>
-
                       <!-- Miller Projection Here -->
-                      <div class="col-md-6">
-
+                      <div class="col-md-7 text-left">
                       </div>
                   </div>
               </div>

@@ -43,7 +43,6 @@ function get_orbit_stats_left(tle) {
     var tle_raw = this.retrieve_tle(tle);
     var stats = this.calc_orbit(tle_raw);
     var html_left = "<h5>GEODETIC</h5>" + "\n" +
-                    "<p>INT'L DESIGNATOR: " + tle[0] + "<br>" + 
                     "LATITUDE: " + stats[2].toPrecision(4) + "&deg;<br>" + 
                     "LONGITUDE: " + stats[3].toPrecision(4) + "&deg;<br>" +
                     "ALTITUDE: " + stats[4].toPrecision(4) + " km.</p>"; 
@@ -56,24 +55,21 @@ function get_orbit_stats_right(tle) {
 
     var html_right_hdr = "<h5>STATE VECTORS</h5>";
 
-    var html_right_1 =  "<h6>POSITION VECTORS:</h6>" +
-                        "X: " + stats[0].x.toPrecision(6) + " m." + "<br>" +
-                        "Y: " + stats[0].y.toPrecision(6) + " m." + "<br>" +
-                        "Z: " + stats[0].z.toPrecision(6) + " m." + "<br>";
+    var html_right_1 =  "POSITION VECTORS:<br>" +
+                        "X: " + stats[0].x.toPrecision(4) + " km." + "<br>" +
+                        "Y: " + stats[0].y.toPrecision(4) + " km." + "<br>" +
+                        "Z: " + stats[0].z.toPrecision(4) + " km." + "<br>";
 
-    var html_right_2 =  "<h6>VELOCITY VECTORS:</h6>" +
-                        "X: " + stats[1].x + " m." + "<br>" +
-                        "Y: " + stats[1].y + " m." + "<br>" +
-                        "Z: " + stats[1].z + " m." + "<br>";
-    var column_open1 = "<div class='col-md-2'>";
-    var column_close1 = "</div>";
+    console.log(typeof(stats[1].x));
+
+    var html_right_2 =  "VELOCITY VECTORS:<br>" +
+                        "X: " + stats[1].x.toPrecision(3) + " km/s" + "<br>" +
+                        "Y: " + stats[1].y.toPrecision(3) + " km/s" + "<br>" +
+                        "Z: " + stats[1].z.toPrecision(3) + " km/s" + "<br>";
+    var column_open = "<div class='col-sm-6 text-left'>";
+    var column_close = "</div>";
 
     document.getElementById("orbit-info-right").innerHTML += html_right_hdr;
-    document.getElementById("orbit-info-right").innerHTML += column_open1;
-    document.getElementById("orbit-info-right").innerHTML += html_right_1;
-    document.getElementById("orbit-info-right").innerHTML += column_close1;;
-
-    document.getElementById("orbit-info-right").innerHTML += column_open1;
-    document.getElementById("orbit-info-right").innerHTML += html_right_2;
-    document.getElementById("orbit-info-right").innerHTML += column_close1;
+    document.getElementById("orbit-info-right").innerHTML += column_open + html_right_1 + column_close;
+    document.getElementById("orbit-info-right").innerHTML += column_open + html_right_2 + column_close;
 }

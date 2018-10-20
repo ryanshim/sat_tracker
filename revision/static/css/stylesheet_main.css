@@ -16,12 +16,15 @@
 
 #intl_desig_form {
     color:White;
-    background-color:DarkSlateGrey;
+    background-color:#333333;
+    border-color:#555555;
+    box-shadow:white;
 }
 
 #intl_desig_btn {
     color:White;
-    background-color:DarkSlateGrey;
+    background-color:#333333;
+    border-color:#555555;
 }
 
 #intl_desig_lbl {
@@ -30,7 +33,7 @@
 
 body {
     font-family:"Questrial", sans-serif;
-    background-color:Black;
+    background-color:#222222;
     color:White;
 }
 
