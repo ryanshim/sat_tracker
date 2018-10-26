@@ -35,7 +35,7 @@ def intl_desig_search():
             for row in c.execute(query):
                 l1 = row[1]
                 l2 = row[2]
-        except:
+        except Exception:
             print("SQL Query Error:")
         conn.close()
 

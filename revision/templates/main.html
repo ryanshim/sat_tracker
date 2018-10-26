@@ -45,14 +45,16 @@
 
               <!-- Intl Desig Input -->
               <div class="col-md-2">
-                  <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
+                  <form action="/track" method="POST">
+                      <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
+                  </form>
               </div>
 
               <!-- Track Button -->
               <div class="col-md-2">
                    <form action="/track" method="POST">
                       <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
-                  </form>             
+                   </form>             
               </div>
 
           <!-- TLE Data -->

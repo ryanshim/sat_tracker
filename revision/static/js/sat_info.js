@@ -40,36 +40,45 @@ function calc_orbit(tle_data) {
 }
 
 function get_orbit_stats_left(tle) {
-    var tle_raw = this.retrieve_tle(tle);
-    var stats = this.calc_orbit(tle_raw);
-    var html_left = "<h5>GEODETIC</h5>" + "\n" +
-                    "LATITUDE: " + stats[2].toPrecision(4) + "&deg;<br>" + 
-                    "LONGITUDE: " + stats[3].toPrecision(4) + "&deg;<br>" +
-                    "ALTITUDE: " + stats[4].toPrecision(4) + " km.</p>"; 
-    document.getElementById("orbit-info-left").innerHTML += html_left;
+
+    setInterval(function() {
+        document.getElementById("orbit-info-left").innerHTML = "";
+        var tle_raw = this.retrieve_tle(tle);
+        var stats = this.calc_orbit(tle_raw);
+        var html_left = "<h5>GEODETIC</h5>" + "\n" +
+                        "LATITUDE: " + stats[2].toPrecision(4) + "&deg;<br>" + 
+                        "LONGITUDE: " + stats[3].toPrecision(4) + "&deg;<br>" +
+                        "ALTITUDE: " + stats[4].toPrecision(4) + " km.</p>"; 
+        document.getElementById("orbit-info-left").innerHTML += html_left;
+    }, 1000);
 }
 
 function get_orbit_stats_right(tle) {
-    var tle_raw = this.retrieve_tle(tle);
-    var stats = this.calc_orbit(tle_raw);
+    setInterval(function() {
 
-    var html_right_hdr = "<h5>STATE VECTORS</h5>";
+        document.getElementById("orbit-info-right").innerHTML = "";
 
-    var html_right_1 =  "POSITION VECTORS:<br>" +
-                        "X: " + stats[0].x.toPrecision(4) + " km." + "<br>" +
-                        "Y: " + stats[0].y.toPrecision(4) + " km." + "<br>" +
-                        "Z: " + stats[0].z.toPrecision(4) + " km." + "<br>";
+        var tle_raw = this.retrieve_tle(tle);
+        var stats = this.calc_orbit(tle_raw);
 
-    console.log(typeof(stats[1].x));
+        var html_right_hdr = "<h5>STATE VECTORS</h5>";
 
-    var html_right_2 =  "VELOCITY VECTORS:<br>" +
-                        "X: " + stats[1].x.toPrecision(3) + " km/s" + "<br>" +
-                        "Y: " + stats[1].y.toPrecision(3) + " km/s" + "<br>" +
-                        "Z: " + stats[1].z.toPrecision(3) + " km/s" + "<br>";
-    var column_open = "<div class='col-sm-6 text-left'>";
-    var column_close = "</div>";
+        var html_right_1 =  "POSITION VECTORS:<br>" +
+                            "X: " + stats[0].x.toPrecision(4) + " km." + "<br>" +
+                            "Y: " + stats[0].y.toPrecision(4) + " km." + "<br>" +
+                            "Z: " + stats[0].z.toPrecision(4) + " km." + "<br>";
 
-    document.getElementById("orbit-info-right").innerHTML += html_right_hdr;
-    document.getElementById("orbit-info-right").innerHTML += column_open + html_right_1 + column_close;
-    document.getElementById("orbit-info-right").innerHTML += column_open + html_right_2 + column_close;
+        var html_right_2 =  "VELOCITY VECTORS:<br>" +
+                            "X: " + stats[1].x.toPrecision(3) + " km/s" + "<br>" +
+                            "Y: " + stats[1].y.toPrecision(3) + " km/s" + "<br>" +
+                            "Z: " + stats[1].z.toPrecision(3) + " km/s" + "<br>";
+        var column_open = "<div class='col-sm-6 text-left'>";
+        var column_close = "</div>";
+
+        document.getElementById("orbit-info-right").innerHTML += html_right_hdr;
+        document.getElementById("orbit-info-right").innerHTML += column_open + html_right_1 + column_close;
+        document.getElementById("orbit-info-right").innerHTML += column_open + html_right_2 + column_close;
+
+    }, 1000);
+
 }
