@@ -37,6 +37,10 @@ def get_tle_data():
     conn = sqlite3.connect('./static/data/tle.db')
     c = conn.cursor()
 
+    # delete old data from database
+    c.execute('DELETE FROM tles')
+    conn.commit()
+
     # extract int'l designator and insert into database
     for i in range(0, len(output), 2):
         itl_desig = output[i][9:17].rstrip()
@@ -47,6 +51,11 @@ def get_tle_data():
 
         c.execute('INSERT INTO tles VALUES (?,?,?)', row)
         conn.commit()
+
+        total = len(output / 2)
+        
+        # print the status
+        print('\t\t[' + str(i // total) + '%]')
 
     conn.close()
 
