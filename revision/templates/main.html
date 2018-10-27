@@ -40,7 +40,7 @@
 
               <!-- Intl Desig Input Header -->
               <div class="col-md-2">
-                  <div class="pull-right" id="intl_desig_lbl">Search by International Designator:</div>
+                  <div class="pull-left" id="intl_desig_lbl">Search by International Designator:</div>
               </div>
 
               <!-- Intl Desig Input -->
@@ -95,7 +95,16 @@
                              get_orbit_stats_left(arr_tle);
                           </script>                     
                       </div>
-                      <div class="col-md-3" id="orbit-info-right">
+
+
+                      <!-- Miller Projection Here -->
+                      <div class="col-md-7 text-left">
+                      </div>
+                  </div>
+
+
+                  <div class="row">
+                       <div class="col-md-3 top-buffer" id="orbit-info-right">
                           <script>
                              var desig = '{{ intl_desig }}';
                              var l1 = '{{ tle_l1 }}';
@@ -103,11 +112,16 @@
                              var arr_tle = [desig, l1, l2];
                              get_orbit_stats_right(arr_tle);
                           </script>
-                      </div>
+                      </div>                 
+                  </div>
 
-                      <!-- Miller Projection Here -->
-                      <div class="col-md-7 text-left">
-                      </div>
+                  <div class="row">
+                      <div class="col-md-3 top-buffer" id="orbital-elements">
+                        <script>
+                            get_orbital_elements(arr_tle);
+                        </script>
+                      </div>                       
+
                   </div>
               </div>
           </div>
