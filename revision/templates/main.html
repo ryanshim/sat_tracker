@@ -72,8 +72,8 @@
       </div>
 
       <!-- Display Information -->
-      <div class="top-buffer">
-          <div class="left-buffer">
+      <div class="top-buffer-lg">
+          <div class="left-buffer-lg">
               <div class="container-fluid">
 
                   <div class="col-md-3">
@@ -82,7 +82,7 @@
                       <!-- import sat_info.js script -->
                       <script src="/static/js/sat_info.js"></script>
 
-                      <!-- Orbit Information Here -->
+                      <!-- Orbit Information -->
                       <div class="row" id="orbit-info-left">
                           <script>
                              var desig = '{{ intl_desig }}';
@@ -110,16 +110,20 @@
                       </div>
                   </div>
                   
-                  <!-- Miller Projection Here -->
-                  <div class="col-md-9">
-                      <div class="col-md-7" id="map-container">
-                          <canvas width="800" height="600"></canvas>
-                      </div>
-                      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
-                      <script src="https://d3js.org/d3-array.v1.min.js"></script>
-                      <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-                      <script src="../static/js/create_map.js"></script>
-                  </div>
+                  <!-- Orthographic Projection -->
+                    <div class="col-md-9">
+                        <div class="left-buffer-lg">
+                            <div class="col-md-7" id="map-container">
+                               <canvas width="800" height="600"></canvas>
+                            </div>
+                        </div>
+
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+                        <script src="https://d3js.org/d3-array.v1.min.js"></script>
+                        <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+                        <script src="../static/js/create_map.js"></script>
+                    </div>
+
               </div>
           </div>
       </div>

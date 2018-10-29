@@ -2,8 +2,16 @@
     margin-top:20px;
 }
 
+.top-buffer-lg {
+    margin-top:80px;
+}
+
 .left-buffer {
     margin-left:10px;
+}
+
+.left-buffer-lg {
+    margin-left:40px;
 }
 
 .bottom-buffer {
