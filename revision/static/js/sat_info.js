@@ -76,8 +76,10 @@ function get_orbit_stats_right(tle) {
         var column_close = "</div>";
 
         document.getElementById("orbit-info-right").innerHTML += html_right_hdr;
-        document.getElementById("orbit-info-right").innerHTML += column_open + html_right_1 + column_close;
-        document.getElementById("orbit-info-right").innerHTML += column_open + html_right_2 + column_close;
+        document.getElementById("orbit-info-right").innerHTML += column_open +
+            html_right_1 + column_close;
+        document.getElementById("orbit-info-right").innerHTML += column_open +
+            html_right_2 + column_close;
 
     }, 1000);
 }
