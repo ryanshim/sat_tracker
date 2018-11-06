@@ -8,6 +8,9 @@
 <!-- Latest compiled and minified d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
+<!-- import sat_info.js script -->
+<script src="/static/js/sat_info.js"></script>
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -82,7 +85,7 @@
                       <!-- import satellite.js -->
                       <script src="/static/node_modules/satellite.js/dist/satellite.js"></script>
                       <!-- import sat_info.js script -->
-                      <script src="/static/js/sat_info.js"></script>
+                      <!-- <script src="/static/js/sat_info.js"></script> -->
 
                       <!-- Orbit Information -->
                       <div class="row" id="orbit-info-left">
@@ -117,6 +120,13 @@
                         <div class="left-buffer-lg">
                             <div class="col-md-7" id="map-container"></div>
                         </div>
+
+                        <script>
+                           var desig = '{{ intl_desig }}';
+                           var l1 = '{{ tle_l1 }}';
+                           var l2 = '{{ tle_l2 }}';
+                           var arr_tle = [desig, l1, l2];
+                        </script>
 
                         <script src="../static/js/create_map.js"></script>
                     </div>
