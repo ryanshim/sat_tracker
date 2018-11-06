@@ -18,6 +18,13 @@
     margin-bottom:5px;
 }
 
+.graticule {
+    fill: none;
+    stroke: #79A09E;
+    stroke-width: 1;
+    stroke-dasharray: 1,1;
+}
+
 #main_title {
     color:White;
 }
