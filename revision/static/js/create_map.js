@@ -24,7 +24,10 @@ d3.json(url, function(err, geojson) {
     lines.attr('d', path);
     lines.exit().remove();
 
-
     svg.append("path").attr("d", path(geojson));
 });
 
+// Prepare satellite position data to plot
+arr_tle = retrieve_tle(arr_tle);
+let position_data = calc_orbit(arr_tle);
+let sat_pos = [position_data[2], position_data[3]];
