@@ -1,16 +1,12 @@
-'''
-Scrape data using Space-Track's API
-
-- Currently scraping full catalog from space-track 
-- Space-Track recommends using Curl to access their API.
-'''
-from sat import Sat
+#Scrape data using Space-Track's API
+# - Currently scraping full catalog from space-track 
+# - Space-Track recommends using Curl to access their API.
 import sqlite3
 import subprocess
 import shlex
 import getpass
 
-''' Use space-track api to obtain tle data '''
+#Use space-track api to obtain tle data
 def get_tle_data():
     username = input("Enter Space-Track e-mail: ")
     password = getpass.getpass("Enter password: ")
@@ -40,8 +36,6 @@ def get_tle_data():
     # delete old data from database
     c.execute('DELETE FROM tles')
     conn.commit()
-    
-    total = len(output) / 2
 
     # extract int'l designator and insert into database
     for i in range(0, len(output), 2):
@@ -49,13 +43,14 @@ def get_tle_data():
         line1 = output[i]
         line2 = output[i+1]
         row = (itl_desig, line1, line2)
-        print(itl_desig)
 
         c.execute('INSERT INTO tles VALUES (?,?,?)', row)
         conn.commit()
 
+        perc_done = (i / len(output)) * 100
+
         # print the status
-        print('\t\t[{:.2f}%]'.format((i / total) * 100))
+        print(itl_desig + '\t\t[{:.2f}%]'.format(perc_done))
 
     conn.close()
 

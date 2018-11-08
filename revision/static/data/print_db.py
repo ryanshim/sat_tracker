@@ -20,9 +20,11 @@ print(count)
 
 conn.close()
 
+'''
 itl_desig = row[0]
 line1 = row[1]
 line2 = row[2]
+'''
 
 '''
 sat = ephem.readtle(itl_desig, line1, line2)
