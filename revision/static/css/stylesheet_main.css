@@ -20,9 +20,9 @@
 
 .graticule {
     fill: none;
-    stroke: #79A09E;
+    stroke: #afbb7e;
     stroke-width: 1;
-    stroke-dasharray: 1,1;
+    stroke-dasharray: 2,1;
 }
 
 #main_title {

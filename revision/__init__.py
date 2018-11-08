@@ -45,7 +45,7 @@ def intl_desig_search():
         tle_data = [desig, l1, l2]
 
         return render_template('main.html',
-                title = 'SATELLITE TRACKING',
+                title = 'TRACKING',
                 intl_desig = desig,
                 tle_l1 = l1,
                 tle_l2 = l2)
