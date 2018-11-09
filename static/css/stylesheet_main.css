@@ -1,0 +1,63 @@
+.top-buffer {
+    margin-top:20px;
+}
+
+.top-buffer-lg {
+    margin-top:80px;
+}
+
+.left-buffer {
+    margin-left:10px;
+}
+
+.left-buffer-lg {
+    margin-left:40px;
+}
+
+.bottom-buffer {
+    margin-bottom:5px;
+}
+
+.graticule {
+    fill: none;
+    stroke: #afbb7e;
+    stroke-width: 1;
+    stroke-dasharray: 2,1;
+}
+
+#main_title {
+    color:White;
+}
+
+#intl_desig_form {
+    color:White;
+    background-color:#333333;
+    border-color:#555555;
+    box-shadow:white;
+}
+
+#intl_desig_btn {
+    color:White;
+    background-color:#333333;
+    border-color:#555555;
+}
+
+#intl_desig_lbl {
+    color:White;
+}
+
+body {
+    font-family:"Questrial", sans-serif;
+    background-color:#222222;
+    color:White;
+}
+
+h6 {
+    color:White;
+    font-weight:bolder;
+}
+
+h5 {
+    color:White;
+    font-weight:bold;
+}
