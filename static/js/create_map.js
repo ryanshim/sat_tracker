@@ -1,17 +1,17 @@
 // Create a map in D3
 var arr_tle = retrieve_tle(arr_tle);
-var w = "800";
-var h = "600";
+var w = "1000";
+var h = "700";
 
 // Append svg object into map-container & init attributes
 var svg = d3.select("#map-container").append("svg")
-    .attr("width",w)
-    .attr("height",h);
+    .attr("width", w)
+    .attr("height", h);
 
 // Init a map projection
-var projection = d3.geoEquirectangular()
-    .translate([w / 2, h / 2])
-    .scale(w / (2 * Math.PI));
+var projection = d3.geoEquirectangular();
+    //.translate([w / 2, h / 2])
+    //.scale(w / (2 * Math.PI));
 
 var path = d3.geoPath().projection(projection);
 
@@ -22,9 +22,9 @@ var graticule = d3.geoGraticule()
 // Draw map border
 svg.append("rect")
     .attr("x", 1)
-    .attr("y", 100)
-    .attr("height", (h/2) + 100)
-    .attr("width", w-1)
+    .attr("y", 10)
+    .attr("height", (h/2) + 131)
+    .attr("width", w-40)
     .style("stroke", "white")
     .style("fill", "none")
 

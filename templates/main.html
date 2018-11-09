@@ -116,18 +116,16 @@
                   </div>
                   
                   <!-- Orthographic Projection -->
-                    <div class="col-md-9">
-                        <div class="col-md-7" id="map-container"></div>
+                  <div class="col-md-9" id="map-container"></div>
 
-                        <script>
-                           var desig = '{{ intl_desig }}';
-                           var l1 = '{{ tle_l1 }}';
-                           var l2 = '{{ tle_l2 }}';
-                           var arr_tle = [desig, l1, l2];
-                        </script>
+                  <script>
+                     var desig = '{{ intl_desig }}';
+                     var l1 = '{{ tle_l1 }}';
+                     var l2 = '{{ tle_l2 }}';
+                     var arr_tle = [desig, l1, l2];
+                  </script>
 
-                        <script src="../static/js/create_map.js"></script>
-                    </div>
+                  <script src="../static/js/create_map.js"></script>
 
               </div>
           </div>
