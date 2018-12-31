@@ -26,7 +26,7 @@ svg.append("rect")
     .attr("height", (h/2) + 131)
     .attr("width", w-40)
     .style("stroke", "white")
-    .style("fill", "none")
+    //.style("fill", "none")
 
 // Draw continents on svg
 var url = "http://enjalot.github.io/wwsd/data/world/world-110m.geojson";

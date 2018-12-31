@@ -2,10 +2,11 @@
 #
 # Revision Notes:
 #
+from flask import Flask, render_template, request, url_for
+from .str_filter import *
 import sqlite3
 import collections
 import json
-from flask import Flask, render_template, request, url_for
 
 app = Flask(__name__)
 
@@ -18,7 +19,6 @@ def homepage():
             tle_l1 = '',
             tle_l2 = '')
 
-
 # Handle Intl Designator Search
 @app.route('/track', methods=['GET','POST'])
 def intl_desig_search():
@@ -26,6 +26,9 @@ def intl_desig_search():
         desig = request.form.get('intl_desig_input')
         l1 = ""
         l2 = ""
+
+        # Convert any alpha chars to upper
+        desig = upper_char(desig)
 
         # Search for satellite in db by international designator
         conn = sqlite3.connect('./static/data/tle.db')

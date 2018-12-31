@@ -1,3 +1,6 @@
+/*************/
+/* CLASS CSS */
+/*************/
 .top-buffer {
     margin-top:20px;
 }
@@ -10,6 +13,17 @@
     margin-bottom:5px;
 }
 
+/*****************/
+/* CLASS ELEMENT */
+/*****************/
 body {
     font-family:"Questrial", sans-serif;
+}
+
+/************/
+/* CLASS ID */
+/************/
+#mapdiv {
+    width:600px;
+    height:400px;
 }
