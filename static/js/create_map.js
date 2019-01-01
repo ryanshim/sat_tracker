@@ -1,5 +1,4 @@
 // Create a map in D3
-var arr_tle = retrieve_tle(arr_tle);
 var w = "1000";
 var h = "700";
 
@@ -10,8 +9,6 @@ var svg = d3.select("#map-container").append("svg")
 
 // Init a map projection
 var projection = d3.geoEquirectangular();
-    //.translate([w / 2, h / 2])
-    //.scale(w / (2 * Math.PI));
 
 var path = d3.geoPath().projection(projection);
 
@@ -26,10 +23,9 @@ svg.append("rect")
     .attr("height", (h/2) + 131)
     .attr("width", w-40)
     .style("stroke", "white")
-    //.style("fill", "none")
 
 // Draw continents on svg
-var url = "http://enjalot.github.io/wwsd/data/world/world-110m.geojson";
+var url = "/static/data/world-110m.geojson";
 d3.json(url, function(err, geojson) {
     svg.append("path").attr("d", path(geojson));
 });
@@ -43,13 +39,14 @@ svg.append("path")
 // Crude way of updating the circle position.
 setInterval(function() {
     // Prepare satellite position data to plot
-    let position_data = calc_orbit(arr_tle);
-    let sat_pos = [position_data[3], position_data[2]]; // should be passed into d3
-                                                        // as [lon,lat]
+    var sat_obj = new Satellite(arr_tle[1], arr_tle[2]);
+    var sat_pos_data = sat_obj.calc_position();
+    var sat_lon_lat = [sat_pos_data[3], sat_pos_data[2]];   // should be passed into d3
+                                                            // as [lon, lat]
     svg.selectAll("circle").remove();
 
     svg.selectAll("circle")
-        .data([sat_pos]).enter()
+        .data([sat_lon_lat]).enter()
         .append("circle")
         .attr("cx", function (d) { return projection(d)[0]; })
         .attr("cy", function (d) { return projection(d)[1]; })

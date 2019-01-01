@@ -1,50 +1,11 @@
 // Provides orbit information outside of map.
-
-let tle_line1 = "";
-let tle_line2 = "";
-
-function rad2deg(x) {
-    return x * 180 / Math.PI;
-}
-
-function retrieve_tle(tle_data) {
-    tle_line1 = tle_data[1];
-    tle_line2 = tle_data[2];
-    return [tle_line1, tle_line2];
-}
-
-function calc_orbit(tle_data) {
-    var satrec = satellite.twoline2satrec(tle_data[0], tle_data[1]);
-    var position_velocity = satellite.propagate(satrec, new Date());
-
-    // calcaulte state vectors; earth-centered inertial (ECI) coordinates
-    var positionEci = position_velocity.position;
-    var velocityEci = position_velocity.velocity;
-
-    // calculate latitude/longitude
-    var time = new Date();
-    var gmst = satellite.gstimeFromDate(time);
-    var positionGd = satellite.eciToGeodetic(positionEci, gmst);
-    var height = positionGd.height;
-    var latitude = this.rad2deg(positionGd.latitude);
-    var longitude = this.rad2deg(positionGd.longitude);
-
-    if (longitude < 180) {  // for map degree conversion
-        longitude += 360;
-    }
-    if (longitude > 180) {
-        longitude -= 360;
-    }
-
-    return [positionEci, velocityEci, latitude, longitude, height];
-}
-
+// NOTE: use the Sat.js class object instead of hardcoded function calculations
 function get_orbit_stats_left(tle) {
-
     setInterval(function() {
         document.getElementById("orbit-info-left").innerHTML = "";
-        var tle_raw = this.retrieve_tle(tle);
-        var stats = this.calc_orbit(tle_raw);
+        var sat_obj = new Satellite(tle[1], tle[2]);
+        var stats = sat_obj.calc_position();
+
         var html_left = "<h5>Geodetic</h5>" + "\n" +
                         "Latitude: " + stats[2].toPrecision(4) + "&deg;<br>" + 
                         "Longitude: " + stats[3].toPrecision(4) + "&deg;<br>" +
@@ -55,11 +16,9 @@ function get_orbit_stats_left(tle) {
 
 function get_orbit_stats_right(tle) {
     setInterval(function() {
-
         document.getElementById("orbit-info-right").innerHTML = "";
-
-        var tle_raw = this.retrieve_tle(tle);
-        var stats = this.calc_orbit(tle_raw);
+        var sat_obj = new Satellite(tle[1], tle[2]);
+        var stats = sat_obj.calc_position();
 
         var html_right_hdr = "<h5>State Vectors</h5>";
 
