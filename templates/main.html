@@ -80,30 +80,30 @@
       <div class="top-buffer-lg">
           <div class="left-buffer-lg">
               <div class="container-fluid">
+                  <!-- import satellite.js -->
+                  <script src="/static/node_modules/satellite.js/dist/satellite.js"></script>
+                  <!-- import Satellite class -->
+                  <script src="/static/js/Sat.js"></script>
+                  <!-- global for orbit info and map projection -->
+                  <script>
+                         var desig = '{{ intl_desig }}';
+                         var l1 = '{{ tle_l1 }}';
+                         var l2 = '{{ tle_l2 }}';
+                         var arr_tle = [desig, l1, l2];
+                         var sat_obj = new Satellite(arr_tle[1], arr_tle[2]);
+                  </script>
 
+                  <!-- text orbital information -->
                   <div class="col-md-3">
-                      <!-- import satellite.js -->
-                      <script src="/static/node_modules/satellite.js/dist/satellite.js"></script>
-                      <!-- import Satellite class -->
-                      <script src="/static/js/Sat.js"></script>
-
                       <!-- Orbit Information -->
                       <div class="row" id="orbit-info-left">
                           <script>
-                             var desig = '{{ intl_desig }}';
-                             var l1 = '{{ tle_l1 }}';
-                             var l2 = '{{ tle_l2 }}';
-                             var arr_tle = [desig, l1, l2];
                              get_orbit_stats_left(arr_tle);
                           </script>                     
                       </div>
 
                       <div class="row top-buffer" id="orbit-info-right">
                           <script>
-                             var desig = '{{ intl_desig }}';
-                             var l1 = '{{ tle_l1 }}';
-                             var l2 = '{{ tle_l2 }}';
-                             var arr_tle = [desig, l1, l2];
                              get_orbit_stats_right(arr_tle);
                           </script>
                       </div>
@@ -115,17 +115,9 @@
                       </div>
                   </div>
                   
-                  <!-- Orthographic Projection -->
+                  <!-- map orthographic projection -->
                   <div class="col-md-9" id="map-container"></div>
-
-                  <script>
-                     var desig = '{{ intl_desig }}';
-                     var l1 = '{{ tle_l1 }}';
-                     var l2 = '{{ tle_l2 }}';
-                     var arr_tle = [desig, l1, l2];
-                  </script>
-
-                  <script src="../static/js/create_map.js"></script>
+                  <script src="/static/js/create_map.js"></script>
 
               </div>
           </div>

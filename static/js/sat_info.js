@@ -1,9 +1,9 @@
 // Provides orbit information outside of map.
-// NOTE: use the Sat.js class object instead of hardcoded function calculations
+
+// Continuously update LLA information on left side of orbit info.
 function get_orbit_stats_left(tle) {
     setInterval(function() {
         document.getElementById("orbit-info-left").innerHTML = "";
-        var sat_obj = new Satellite(tle[1], tle[2]);
         var stats = sat_obj.calc_position();
 
         var html_left = "<h5>Geodetic</h5>" + "\n" +
@@ -14,14 +14,13 @@ function get_orbit_stats_left(tle) {
     }, 1000);
 }
 
+// Continuously update the state vector information on right side of orbit info.
 function get_orbit_stats_right(tle) {
     setInterval(function() {
         document.getElementById("orbit-info-right").innerHTML = "";
-        var sat_obj = new Satellite(tle[1], tle[2]);
         var stats = sat_obj.calc_position();
 
         var html_right_hdr = "<h5>State Vectors</h5>";
-
         var html_right_1 =  "POSITION:<br>" +
                             "X = " + stats[0].x.toPrecision(4) + " km." + "<br>" +
                             "Y = " + stats[0].y.toPrecision(4) + " km." + "<br>" +
@@ -39,10 +38,10 @@ function get_orbit_stats_right(tle) {
             html_right_1 + column_close;
         document.getElementById("orbit-info-right").innerHTML += column_open +
             html_right_2 + column_close;
-
     }, 1000);
 }
 
+// Output orbital elements extracted from TLE data.
 function get_orbital_elements(tle) {
     let html_hdr = "<h5>Keplerian Elements</h5>";
     let tle_elements = "Inclination = " + tle[2].substring(8,17) + "<br>";
