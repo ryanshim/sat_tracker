@@ -91,6 +91,7 @@
                          var l2 = '{{ tle_l2 }}';
                          var arr_tle = [desig, l1, l2];
                          var sat_obj = new Satellite(arr_tle[1], arr_tle[2]);
+                         sat_obj.calc_path()
                   </script>
 
                   <!-- text orbital information -->

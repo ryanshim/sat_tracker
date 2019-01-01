@@ -34,24 +34,49 @@ class Satellite {
         this.position_data = [positionEci, velocityEci, latitude, longitude, height];
         return this.position_data;
     }
-
-    // Calculate range of positions for path plotting
-    // This function will only be called once when the document is ready
+    
+    /* 
+     * Calculate range of positions for path plotting
+     * This function will only be called once when the document is ready.
+     * TODO: Refactor this function to call calc_position() function. Need to 
+     * refactor calc_position() to determine if date will be provided.
+     */
     calc_path() {
+        var path_points = []
         // get a range of dates
-        let now = new Date();
-        let date_range = [];
-
-        //now.setMinutes(now.getMinutes() + 10);
-        let current_minute = now.getMinutes();
-
-        for (var i = 0; i < 10; i++) {
-            now.setMinutes(current_minute + 1);
-            console.log(now);
-            //date_range.push(now);
+        var now = new Date();
+        var date_range = [];
+        for (var i = -60; i < 60; i += 2) {
+            date_range.push(new Date(now.getTime() + i*60000));
         }
 
-        console.log(date_range);
+        for (var i = 0; i < date_range.length; i++) {
+            var satrec = satellite.twoline2satrec(this.line1, this.line2);
+            //var position_velocity = satellite.propagate(satrec, new Date());
+            var position_velocity = satellite.propagate(satrec, date_range[i]);
+
+            // State vectors; Earth-centered inertial (ECI) coordinates
+            var positionEci = position_velocity.position;
+            var velocityEci = position_velocity.velocity;
+
+            // Calc latitude/longitude
+            //var time = new Date();
+            var gmst = satellite.gstimeFromDate(date_range[i]);
+            var positionGd = satellite.eciToGeodetic(positionEci, gmst);
+            var height = positionGd.height;
+            var latitude = this.rad2deg(positionGd.latitude);
+            var longitude = this.rad2deg(positionGd.longitude);
+
+            // For map degree conversion
+            if (longitude < 180) {
+                longitude += 360;
+            }
+            else if (longitude > 180) {
+                longitude -= 360;
+            }
+            path_points.push([longitude, latitude]);
+        }
+        return path_points;
     }
 
     // Radians to degrees conversion
@@ -59,10 +84,3 @@ class Satellite {
         return x * 180 / Math.PI;
     }
 }
-
-/*
-let l1 = "1 25544U 98067A 18312.66294476 .00003824 00000-0 65431-4 0 9999";
-let l2 = "2 25544 51.6413 18.7523 0004902 25.1869 73.9258 15.53933410140984";
-iss = new Satellite(l1, l2);
-iss.calc_path();
-*/

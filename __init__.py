@@ -20,6 +20,8 @@ def homepage():
             tle_l2 = '')
 
 # Handle Intl Designator Search
+# TODO: Fix the tle entries in the db that don't have an intl desig.'
+#       It's breaking the code.
 @app.route('/track', methods=['GET','POST'])
 def intl_desig_search():
     if request.method == 'POST':
@@ -41,6 +43,7 @@ def intl_desig_search():
         except Exception:
             print("SQL Query Error:")
         conn.close()
+        print(l1, l2)
 
         # Strip the carriage return
         l1 = l1[:-1]
