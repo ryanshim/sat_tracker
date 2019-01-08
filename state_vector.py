@@ -1,20 +1,87 @@
+""" Utility functions to calculate an object's Keplerian orbital elements to
+state vectors. Algorithms are from the textbook "Orbital Mechanics for
+Engineering Students" by Curtis and "KEPLERIAN Orbit Elements --> Cartesian
+State Vectors" by Rene Schwarz
+"""
 import math
 import numpy as np
 
-def calc_sv(l1, l2):
-    # Declare constants
-    std_grav = 3.986004418e14
+# CONSTANTS
+STDGRAV = 3.986004418e14
 
+def calc_SV(tle):
+    """ Returns state vectors given Keplerian elements from TLE.
+    @param l1: TLE line 1
+    @param l2: TLE line 2
+    """
     # Extract orbital elements
-    inclination = tle[2][9:17]      # deg
-    right_ascen = tle[2][18:26]     # deg
-    eccentricity = tle[2][26:34]    # decimal pt assumed
-    arg_perigee = tle[2][34:43]     # deg
-    mean_anomaly = tle[2][43:52]    # deg
-    mean_motion = tle[2][52:63]     # rev/day
+    inclination = float(tle[1][9:17])      # deg
+    right_ascen = float(tle[1][18:26])     # deg
+    eccentricity = float(tle[1][26:34])    # decimal pt assumed
+    arg_perigee = float(tle[1][34:43])     # deg
+    mean_anomaly = float(tle[1][43:52])    # deg
+    mean_motion = float(tle[1][52:63])     # rev/day
 
     # Calc semi-major axis, a in meters
     mean_motion = mean_motion * (2 * np.pi / 86400)
-    a = (math.pow(std_grav, (1/3))) / (math.pow(mean_motion, (2/3)))
+    a = (math.pow(STDGRAV, (1/3))) / (math.pow(mean_motion, (2/3)))
+
+    # Calc mean anomaly
+    MA = calc_MA(mean_anomaly, a, 0)
+    print("MEAN ANOMALY: {}".format(MA))
 
     # Calc eccentric anomaly, EA using Newton's method
+    EA = calc_EA(eccentricity, MA, 1.0e-8)
+    print("ECCENTRIC ANOMALY: {}".format(EA))
+
+    TA = calc_TA(EA, eccentricity)
+    print("TRUE ANOMALY: {}".format(TA))
+
+def calc_MA(M_o, a, t_o, t=None):
+    """ Return the mean anomaly given a time difference.
+    @param M_o: initial mean anomaly (degrees)
+    @param a: semi-major axis (meters)
+    @param t_o: initial time
+    @param t: final time
+    """
+    if t == None or t == t_o:   # calc for current time
+        return M_o
+
+    delta_t = 86400 * (t - t_o) # time difference
+    M = M_o + (delta_t * math.sqrt(STDGRAV / math.pow(a, 3)))
+
+    return M
+    
+def calc_EA(e, M, tol):
+    """ Return the eccentric anomaly by solving Kepler's equation by Newton's method.
+    @param e: eccentricity
+    @param M: mean anomaly
+    @param tol: error tolerance (i.e. tangent precision)
+    """
+    # Select a starting value for E
+    if M < math.pi:
+        E = M + e/2
+    else:
+        E = M - e/2
+
+    # Iterate on Kepler's equation until E is determined to be within
+    # the error tolerance.
+    ratio = 1
+    while math.fabs(ratio) > tol:
+        ratio = (E - e*math.sin(E) - M) / (1 - e*math.cos(E))
+        E = E - ratio
+
+    return E
+
+def calc_TA(EA, e):
+    """ Return the true anomaly derived from the given eccentric anomaly.
+    @param EA: eccentric anomaly
+    @param e: eccentricity
+    """
+    TA = 2 * math.atan2((math.sqrt(1+e) * math.sin(EA/2)), (math.sqrt(1-e) * math.cos(EA/2)))
+    return TA
+
+# TEST
+line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
+line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
+calc_SV([line1, line2])
