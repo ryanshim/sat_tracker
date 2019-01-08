@@ -28,6 +28,12 @@ var url = "/static/data/world-110m.geojson";
 d3.json(url, function(err, geojson) {
     svg.append("path").attr("d", path(geojson));
 
+    // Draw graticules
+    svg.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", path);
+
     // Draw orbit path
     // TODO: Need to draw the path as a line rather than points
     path_positions = sat_obj.calc_path();
@@ -39,13 +45,8 @@ d3.json(url, function(err, geojson) {
         .attr("width", 5)
         .attr("height", 5)
         .attr("stroke", "yellow")
-});
 
-// Draw graticules
-svg.append("path")
-    .datum(graticule)
-    .attr("class", "graticule")
-    .attr("d", path);
+});
 
 // Crude way of updating the circle position.
 setInterval(function() {
@@ -64,4 +65,3 @@ setInterval(function() {
         .attr("fill", "red")
 
 }, 2000);
-
