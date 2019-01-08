@@ -14,16 +14,16 @@ def calc_SV(tle):
     @param l1: TLE line 1
     @param l2: TLE line 2
     """
-    # Extract orbital elements
+    # Extract orbital elements and convert to radians
     inclination = float(tle[1][9:17])      # deg
     right_ascen = float(tle[1][18:26])     # deg
-    eccentricity = float(tle[1][26:34])    # decimal pt assumed
+    eccentricity = format_eccentricity(tle[1][26:34])    # decimal pt assumed
     arg_perigee = float(tle[1][34:43])     # deg
-    mean_anomaly = float(tle[1][43:52])    # deg
+    mean_anomaly = math.radians(float(tle[1][43:52]))    # rad 
     mean_motion = float(tle[1][52:63])     # rev/day
 
     # Calc semi-major axis, a in meters
-    mean_motion = mean_motion * (2 * np.pi / 86400)
+    mean_motion = mean_motion * (2 * np.pi / 86400) # convert from rev/day to rad/s
     a = (math.pow(STDGRAV, (1/3))) / (math.pow(mean_motion, (2/3)))
 
     # Calc mean anomaly
@@ -33,7 +33,7 @@ def calc_SV(tle):
     # Calc eccentric anomaly, EA using Newton's method
     EA = calc_EA(eccentricity, MA, 1.0e-8)
     print("ECCENTRIC ANOMALY: {}".format(EA))
-
+    
     TA = calc_TA(EA, eccentricity)
     print("TRUE ANOMALY: {}".format(TA))
 
@@ -78,8 +78,33 @@ def calc_TA(EA, e):
     @param EA: eccentric anomaly
     @param e: eccentricity
     """
-    TA = 2 * math.atan2((math.sqrt(1+e) * math.sin(EA/2)), (math.sqrt(1-e) * math.cos(EA/2)))
-    return TA
+    y = math.sqrt(1+e) * math.sin(EA/2)
+    x = math.sqrt(1-e) * math.cos(EA/2)
+
+    if x > 0:
+        return 2 * math.atan(y/x)
+    elif y >= 0 and x < 0:
+        return 2 * (math.atan(y/x) + math.pi)
+    elif y < 0 and x < 0:
+        return 2 * (math.atan(y/x) - math.pi)
+    elif y > 0 and x == 0:
+        return 2 * (math.pi / 2)
+    elif y < 0 and x == 0:
+        return 2 * -(math.pi / 2)
+    elif y == 0 and x == 0:
+        return None
+    return None
+
+def format_eccentricity(e):
+    """ Decimal point assumed in TLE after the 0's. Format and convert
+    to floating point
+    """
+    ec = "."
+    for i in range(len(e)):
+        if e[i] != '0':
+            ec += e[i]
+    return float(ec)
+
 
 # TEST
 line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
