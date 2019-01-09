@@ -11,16 +11,17 @@ STDGRAV = 3.986004418e14
 
 def calc_SV(tle):
     """ Returns state vectors given Keplerian elements from TLE.
-    @param l1: TLE line 1
-    @param l2: TLE line 2
+    :param l1: TLE line 1
+    :param l2: TLE line 2
     """
     # Extract orbital elements and convert to radians
-    inclination = float(tle[1][9:17])      # deg
-    right_ascen = float(tle[1][18:26])     # deg
-    eccentricity = format_eccentricity(tle[1][26:34])    # decimal pt assumed
-    arg_perigee = float(tle[1][34:43])     # deg
-    mean_anomaly = math.radians(float(tle[1][43:52]))    # rad 
-    mean_motion = float(tle[1][52:63])     # rev/day
+    inclination = math.radians(float(tle[1][9:17]))     # rad
+    right_ascen = math.radians(float(tle[1][18:26]))    # rad 
+    eccentricity = format_eccentricity(tle[1][26:34])   # decimal pt assumed
+    arg_perigee = math.radians(float(tle[1][34:43]))    # rad 
+    mean_anomaly = math.radians(float(tle[1][43:52]))   # rad 
+    mean_motion = float(tle[1][52:63])                  # rev/day
+
 
     # Calc semi-major axis, a in meters
     mean_motion = mean_motion * (2 * np.pi / 86400) # convert from rev/day to rad/s
@@ -34,15 +35,20 @@ def calc_SV(tle):
     EA = calc_EA(eccentricity, MA, 1.0e-8)
     print("ECCENTRIC ANOMALY: {}".format(EA))
     
+    # Calc true anomaly
     TA = calc_TA(EA, eccentricity)
     print("TRUE ANOMALY: {}".format(TA))
 
+    # Calc angular momentum
+    h = calc_h(eccentricity, a)
+    print("ANGULAR MOMENTUM: {}".format(h))
+
 def calc_MA(M_o, a, t_o, t=None):
     """ Return the mean anomaly given a time difference.
-    @param M_o: initial mean anomaly (degrees)
-    @param a: semi-major axis (meters)
-    @param t_o: initial time
-    @param t: final time
+    :param M_o: initial mean anomaly (degrees)
+    :param a: semi-major axis (meters)
+    :param t_o: initial time
+    :param t: final time
     """
     if t == None or t == t_o:   # calc for current time
         return M_o
@@ -53,10 +59,11 @@ def calc_MA(M_o, a, t_o, t=None):
     return M
     
 def calc_EA(e, M, tol):
-    """ Return the eccentric anomaly by solving Kepler's equation by Newton's method.
-    @param e: eccentricity
-    @param M: mean anomaly
-    @param tol: error tolerance (i.e. tangent precision)
+    """ Return the eccentric anomaly by solving Kepler's equation using
+    Newton's method.
+    :param e: eccentricity
+    :param M: mean anomaly
+    :param tol: error tolerance (i.e. tangent precision)
     """
     # Select a starting value for E
     if M < math.pi:
@@ -75,8 +82,8 @@ def calc_EA(e, M, tol):
 
 def calc_TA(EA, e):
     """ Return the true anomaly derived from the given eccentric anomaly.
-    @param EA: eccentric anomaly
-    @param e: eccentricity
+    :param EA: eccentric anomaly
+    :param e: eccentricity
     """
     y = math.sqrt(1+e) * math.sin(EA/2)
     x = math.sqrt(1-e) * math.cos(EA/2)
@@ -95,18 +102,65 @@ def calc_TA(EA, e):
         return None
     return None
 
+def calc_h(e, a):
+    """ Return the angular momentum given the eccentricity and the semi-major
+    axis using the angular momentum equation.
+    :param e: eccentricity
+    :param a: semi-major axis
+    """
+    return math.sqrt(STDGRAV * a * (1-math.pow(e, 2)))
+
 def format_eccentricity(e):
     """ Decimal point assumed in TLE after the 0's. Format and convert
-    to floating point
+    to floating point. Since orbits are elliptical, the eccentricity will
+    always be greater than zero but less than one.
+    :param e: eccentricity
     """
-    ec = "."
-    for i in range(len(e)):
-        if e[i] != '0':
-            ec += e[i]
-    return float(ec)
+    e = float(e)
+    while e > 1:
+        e /= 10
+    return e
+
+def calc_vectors():
+    """ WIP: Calculate the position and velocity vectors, r and p, from calculated
+    orbital elements.
+    """
+    h = 80000
+    e = 1.4
+    i = 30
+    ra = 40
+    arg_p = 60
+    ta = 30
+
+    rp = (math.pow(h, 2) / 398600) * \
+         (1 / (1 + e * math.cos(ta))) * \
+         np.matrix([[math.cos(ta)], [math.sin(ta)], [0]])
+
+    vp = (STDGRAV / h) * (-math.sin(ta) * np.matrix('1; 0; 0') + \
+            (e + math.cos(ta) * np.matrix('0; 1; 0')))
+
+    R3_W = np.matrix([[math.cos(ra), math.sin(ra), 0],
+                      [-math.sin(ra), math.cos(ra), 0],
+                      [0, 0, 1]])
+
+    R1_i = np.matrix([[1, 0, 0],
+                      [0, math.cos(i), math.sin(i)],
+                      [0, -math.sin(i), math.cos(i)]])
+
+    R3_w = np.matrix([[math.cos(arg_p), math.sin(arg_p), 0],
+                      [-math.sin(arg_p), math.cos(arg_p), 0],
+                      [0, 0, 1]])
+
+    Q_pX = (R3_w * R1_i * R3_W)
+
+    r = np.matmul(Q_pX, rp)
+    v = np.matmul(Q_pX, vp)
 
 
-# TEST
-line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
-line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
-calc_SV([line1, line2])
+
+calc_vectors()
+
+# TEST ISS TLE
+#line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
+#line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
+#calc_SV([line1, line2])
