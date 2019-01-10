@@ -122,23 +122,29 @@ def format_eccentricity(e):
     return e
 
 def calc_vectors():
-    """ WIP: Calculate the position and velocity vectors, r and p, from calculated
-    orbital elements.
+    """ WIP: Return the position and velocity vectors, r and p, from calculated
+    orbital elements. Orbit lies in the perifocal frame and needs to be
+    transformed to the geocentric equatorial frame using the calssical Euler
+    angle sequence. [R_3(W)][R_1(i)][R_3(w)]
     """
     h = 80000
     e = 1.4
-    i = 30
-    ra = 40
-    arg_p = 60
-    ta = 30
+    i = math.radians(30)
+    ra = math.radians(40)
+    arg_p = math.radians(60)
+    ta = math.radians(30)
 
+    # rp unit: km
     rp = (math.pow(h, 2) / 398600) * \
          (1 / (1 + e * math.cos(ta))) * \
          np.matrix([[math.cos(ta)], [math.sin(ta)], [0]])
 
-    vp = (STDGRAV / h) * (-math.sin(ta) * np.matrix('1; 0; 0') + \
-            (e + math.cos(ta) * np.matrix('0; 1; 0')))
+    # vp unit: km/s
+    vp = (398600 / h) * (np.matrix([[-math.sin(ta)],
+                                    [e + math.cos(ta)],
+                                    [0]]))
 
+    # Euler angle sequence
     R3_W = np.matrix([[math.cos(ra), math.sin(ra), 0],
                       [-math.sin(ra), math.cos(ra), 0],
                       [0, 0, 1]])
@@ -151,11 +157,12 @@ def calc_vectors():
                       [-math.sin(arg_p), math.cos(arg_p), 0],
                       [0, 0, 1]])
 
-    Q_pX = (R3_w * R1_i * R3_W)
+    Q_pX = (R3_w * R1_i * R3_W).transpose()
 
-    r = np.matmul(Q_pX, rp)
-    v = np.matmul(Q_pX, vp)
-
+    r = Q_pX * rp
+    v = Q_pX * vp
+    print(r)
+    print(v)
 
 
 calc_vectors()
