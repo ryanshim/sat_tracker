@@ -5,9 +5,11 @@ State Vectors" by Rene Schwarz
 """
 import math
 import numpy as np
+import ephem
+import time
 
 # CONSTANTS
-STDGRAV = 3.986004418e14
+STDGRAV = 398600.4418 # Units: km^3/s^2
 
 def calc_SV(tle):
     """ Returns state vectors given Keplerian elements from TLE.
@@ -21,7 +23,6 @@ def calc_SV(tle):
     arg_perigee = math.radians(float(tle[1][34:43]))    # rad 
     mean_anomaly = math.radians(float(tle[1][43:52]))   # rad 
     mean_motion = float(tle[1][52:63])                  # rev/day
-
 
     # Calc semi-major axis, a in meters
     mean_motion = mean_motion * (2 * np.pi / 86400) # convert from rev/day to rad/s
@@ -42,6 +43,19 @@ def calc_SV(tle):
     # Calc angular momentum
     h = calc_h(eccentricity, a)
     print("ANGULAR MOMENTUM: {}".format(h))
+
+    # Calc state vectors
+    sv = calc_vectors(h, eccentricity, right_ascen, inclination, arg_perigee, TA)
+    print("\nPOSITION VECTOR:\n{}\n\nVELOCITY VECTOR:\n{}\n".format(sv[0], sv[1]))
+
+    velocity = math.sqrt(math.pow(sv[1][0], 2) + math.pow(sv[1][1], 2) + math.pow(sv[1][2], 2))
+
+    print("CURRENT VELOCITY: {}".format(velocity))
+
+    # Test
+    intl_desig = tle[0][9:17]
+    iss = ephem.readtle(intl_desig, tle[0], tle[1])
+    iss.compute()
 
 def calc_MA(M_o, a, t_o, t=None):
     """ Return the mean anomaly given a time difference.
@@ -121,53 +135,55 @@ def format_eccentricity(e):
         e /= 10
     return e
 
-def calc_vectors():
-    """ WIP: Return the position and velocity vectors, r and p, from calculated
-    orbital elements. Orbit lies in the perifocal frame and needs to be
-    transformed to the geocentric equatorial frame using the calssical Euler
-    angle sequence. [R_3(W)][R_1(i)][R_3(w)]
+def calc_vectors(h, e, RA, i, w, TA):
+    """ WIP: Return the position and velocity vectors, r and p, from orbital
+    elements. Orbit lies in the perifocal frame and needs to be transformed
+    to the geocentric equatorial frame using the calssical Euler angle
+    sequence. [R_3(W)][R_1(i)][R_3(w)]
+    :param h: angular momentum (km^2/s)
+    :param e: eccentricity
+    :param RA: right ascension of ascending node (rad)
+    :param i: inclination of orbit (rad)
+    :param w: argument of perigee (rad)
+    :param TA: true anomaly (rad)
     """
-    h = 80000
-    e = 1.4
-    i = math.radians(30)
-    ra = math.radians(40)
-    arg_p = math.radians(60)
-    ta = math.radians(30)
+    #h = 80000
+    #e = 1.4
+    #i = math.radians(30)
+    #ra = math.radians(40)
+    #arg_p = math.radians(60)
+    #ta = math.radians(30)
 
     # rp unit: km
-    rp = (math.pow(h, 2) / 398600) * \
-         (1 / (1 + e * math.cos(ta))) * \
-         np.matrix([[math.cos(ta)], [math.sin(ta)], [0]])
+    rp = (math.pow(h, 2) / STDGRAV) * \
+         (1 / (1 + e * math.cos(TA))) * \
+         np.matrix([[math.cos(TA)], [math.sin(TA)], [0]])
 
     # vp unit: km/s
-    vp = (398600 / h) * (np.matrix([[-math.sin(ta)],
-                                    [e + math.cos(ta)],
+    vp = (STDGRAV / h) * (np.matrix([[-math.sin(TA)],
+                                    [e + math.cos(TA)],
                                     [0]]))
 
     # Euler angle sequence
-    R3_W = np.matrix([[math.cos(ra), math.sin(ra), 0],
-                      [-math.sin(ra), math.cos(ra), 0],
+    R3_W = np.matrix([[math.cos(RA), math.sin(RA), 0],
+                      [-math.sin(RA), math.cos(RA), 0],
                       [0, 0, 1]])
 
     R1_i = np.matrix([[1, 0, 0],
                       [0, math.cos(i), math.sin(i)],
                       [0, -math.sin(i), math.cos(i)]])
 
-    R3_w = np.matrix([[math.cos(arg_p), math.sin(arg_p), 0],
-                      [-math.sin(arg_p), math.cos(arg_p), 0],
+    R3_w = np.matrix([[math.cos(w), math.sin(w), 0],
+                      [-math.sin(w), math.cos(w), 0],
                       [0, 0, 1]])
 
     Q_pX = (R3_w * R1_i * R3_W).transpose()
 
     r = Q_pX * rp
     v = Q_pX * vp
-    print(r)
-    print(v)
-
-
-calc_vectors()
+    return [r, v]
 
 # TEST ISS TLE
-#line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
-#line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
-#calc_SV([line1, line2])
+line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
+line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
+calc_SV([line1, line2])
