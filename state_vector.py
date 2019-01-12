@@ -5,8 +5,10 @@ State Vectors" by Rene Schwarz
 """
 import math
 import numpy as np
-import ephem
 import time
+
+from sgp4.earth_gravity import wgs72
+from sgp4.io import twoline2rv
 
 # CONSTANTS
 STDGRAV = 398600.4418 # Units: km^3/s^2
@@ -28,10 +30,15 @@ def calc_SV(tle):
     mean_motion = mean_motion * (2 * np.pi / 86400) # convert from rev/day to rad/s
     a = (math.pow(STDGRAV, (1/3))) / (math.pow(mean_motion, (2/3)))
 
+    # Get delta t
+    delta_t = get_delta_t()
+    print(delta_t)
+
     # Calc mean anomaly
     MA = calc_MA(mean_anomaly, a, 0)
     print("MEAN ANOMALY: {}".format(MA))
 
+    '''
     # Calc eccentric anomaly, EA using Newton's method
     EA = calc_EA(eccentricity, MA, 1.0e-8)
     print("ECCENTRIC ANOMALY: {}".format(EA))
@@ -51,11 +58,13 @@ def calc_SV(tle):
     velocity = math.sqrt(math.pow(sv[1][0], 2) + math.pow(sv[1][1], 2) + math.pow(sv[1][2], 2))
 
     print("CURRENT VELOCITY: {}".format(velocity))
+    '''
 
-    # Test
-    intl_desig = tle[0][9:17]
-    iss = ephem.readtle(intl_desig, tle[0], tle[1])
-    iss.compute()
+    # Test state vectors
+    satellite = twoline2rv(tle[0], tle[1], wgs72)
+    position, velocity = satellite.propagate(2019, 1, 10, 16, 30, 0)
+    print(position)
+    print(velocity)
 
 def calc_MA(M_o, a, t_o, t=None):
     """ Return the mean anomaly given a time difference.
@@ -77,7 +86,7 @@ def calc_EA(e, M, tol):
     Newton's method.
     :param e: eccentricity
     :param M: mean anomaly
-    :param tol: error tolerance (i.e. tangent precision)
+    :param tol: error tolerance
     """
     # Select a starting value for E
     if M < math.pi:
@@ -124,17 +133,6 @@ def calc_h(e, a):
     """
     return math.sqrt(STDGRAV * a * (1-math.pow(e, 2)))
 
-def format_eccentricity(e):
-    """ Decimal point assumed in TLE after the 0's. Format and convert
-    to floating point. Since orbits are elliptical, the eccentricity will
-    always be greater than zero but less than one.
-    :param e: eccentricity
-    """
-    e = float(e)
-    while e > 1:
-        e /= 10
-    return e
-
 def calc_vectors(h, e, RA, i, w, TA):
     """ WIP: Return the position and velocity vectors, r and p, from orbital
     elements. Orbit lies in the perifocal frame and needs to be transformed
@@ -147,13 +145,6 @@ def calc_vectors(h, e, RA, i, w, TA):
     :param w: argument of perigee (rad)
     :param TA: true anomaly (rad)
     """
-    #h = 80000
-    #e = 1.4
-    #i = math.radians(30)
-    #ra = math.radians(40)
-    #arg_p = math.radians(60)
-    #ta = math.radians(30)
-
     # rp unit: km
     rp = (math.pow(h, 2) / STDGRAV) * \
          (1 / (1 + e * math.cos(TA))) * \
@@ -182,6 +173,24 @@ def calc_vectors(h, e, RA, i, w, TA):
     r = Q_pX * rp
     v = Q_pX * vp
     return [r, v]
+
+def get_delta_t(epoch_yr, epoch_day):
+    t_final = time.time() # unix epoch; leap seconds already subtracted
+
+
+
+
+
+def format_eccentricity(e):
+    """ Decimal point assumed in TLE after the 0's. Format and convert
+    to floating point. Since orbits are elliptical, the eccentricity will
+    always be greater than zero but less than one.
+    :param e: eccentricity
+    """
+    e = float(e)
+    while e > 1:
+        e /= 10
+    return e
 
 # TEST ISS TLE
 line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
