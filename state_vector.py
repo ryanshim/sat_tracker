@@ -5,7 +5,7 @@ State Vectors" by Rene Schwarz
 """
 import math
 import numpy as np
-import time
+import datetime
 
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
@@ -31,8 +31,10 @@ def calc_SV(tle):
     a = (math.pow(STDGRAV, (1/3))) / (math.pow(mean_motion, (2/3)))
 
     # Get delta t
-    delta_t = get_delta_t()
-    print(delta_t)
+    epoch_yr = int(tle[0][18:20]) + 2000
+    epoch_day = float(tle[0][20:33].lstrip('0'))
+    now = datetime.datetime.now()
+    get_delta_t(epoch_yr, epoch_day, now)
 
     # Calc mean anomaly
     MA = calc_MA(mean_anomaly, a, 0)
@@ -174,10 +176,24 @@ def calc_vectors(h, e, RA, i, w, TA):
     v = Q_pX * vp
     return [r, v]
 
-def get_delta_t(epoch_yr, epoch_day):
-    t_final = time.time() # unix epoch; leap seconds already subtracted
+def get_delta_t(epoch_yr, epoch_day, t_final):
+    """ Return the time difference between the TLE epoch and the target
+    propagation time.
+    :param epoch_yr: TLE epoch year
+    :param epoch_day: TLE epoch day (with fractional portion of the day)
+    :param t_final: Target propagation time
+    """
+    # Convert TLE epoch to a datetime object by finding number of seconds
+    frac, whole = math.modf(epoch_day)
 
+    days = whole
 
+    frac_min, hours = math.modf(frac * 24)
+    frac_sec, minutes = math.modf(frac_min * 60)
+    sec = frac_sec * 60
+    #print(datetime.datetime.strptime())
+
+    #t_final = datetime.timedelta()
 
 
 
