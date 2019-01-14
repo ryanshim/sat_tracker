@@ -33,14 +33,12 @@ def calc_SV(tle):
     # Get delta t
     epoch_yr = int(tle[0][18:20]) + 2000
     epoch_day = float(tle[0][20:33].lstrip('0'))
-    now = datetime.datetime.now()
-    get_delta_t(epoch_yr, epoch_day, now)
+    elapsed = get_current_seconds()
 
     # Calc mean anomaly
-    MA = calc_MA(mean_anomaly, a, 0)
+    MA = calc_MA(mean_anomaly, a, epoch_day, elapsed)
     print("MEAN ANOMALY: {}".format(MA))
 
-    '''
     # Calc eccentric anomaly, EA using Newton's method
     EA = calc_EA(eccentricity, MA, 1.0e-8)
     print("ECCENTRIC ANOMALY: {}".format(EA))
@@ -60,7 +58,6 @@ def calc_SV(tle):
     velocity = math.sqrt(math.pow(sv[1][0], 2) + math.pow(sv[1][1], 2) + math.pow(sv[1][2], 2))
 
     print("CURRENT VELOCITY: {}".format(velocity))
-    '''
 
     # Test state vectors
     satellite = twoline2rv(tle[0], tle[1], wgs72)
@@ -69,16 +66,17 @@ def calc_SV(tle):
     print(velocity)
 
 def calc_MA(M_o, a, t_o, t=None):
-    """ Return the mean anomaly given a time difference.
+    """ Return the mean anomaly given a time difference. The epoch day provided
+    in TLE data is days elapsed since the beginning of the epoch year.
     :param M_o: initial mean anomaly (degrees)
     :param a: semi-major axis (meters)
-    :param t_o: initial time
-    :param t: final time
+    :param t_o: initial time (i.e. TLE epoch day)
+    :param t: final time (i.e target time in seconds)
     """
     if t == None or t == t_o:   # calc for current time
         return M_o
 
-    delta_t = 86400 * (t - t_o) # time difference
+    delta_t = t - (t_o * 86400) # time difference
     M = M_o + (delta_t * math.sqrt(STDGRAV / math.pow(a, 3)))
 
     return M
@@ -176,27 +174,6 @@ def calc_vectors(h, e, RA, i, w, TA):
     v = Q_pX * vp
     return [r, v]
 
-def get_delta_t(epoch_yr, epoch_day, t_final):
-    """ Return the time difference between the TLE epoch and the target
-    propagation time.
-    :param epoch_yr: TLE epoch year
-    :param epoch_day: TLE epoch day (with fractional portion of the day)
-    :param t_final: Target propagation time
-    """
-    # Convert TLE epoch to a datetime object by finding number of seconds
-    frac, whole = math.modf(epoch_day)
-
-    days = whole
-
-    frac_min, hours = math.modf(frac * 24)
-    frac_sec, minutes = math.modf(frac_min * 60)
-    sec = frac_sec * 60
-    #print(datetime.datetime.strptime())
-
-    #t_final = datetime.timedelta()
-
-
-
 def format_eccentricity(e):
     """ Decimal point assumed in TLE after the 0's. Format and convert
     to floating point. Since orbits are elliptical, the eccentricity will
@@ -208,7 +185,46 @@ def format_eccentricity(e):
         e /= 10
     return e
 
+def get_delta_t(epoch_yr, epoch_day, elapsed):
+    """ Return the time difference between the TLE epoch and the target
+    propagation time.
+    :param epoch_yr: TLE epoch year
+    :param epoch_day: TLE epoch day (with fractional portion of the day)
+    :param elapsed: time elapsed since TLE epoch (seconds)
+    """
+    return elapsed - (epoch_day * 86400)
+
+def get_current_seconds():
+    """ Get the number of seconds passed since the beginning of the year and
+    the current time.
+    """
+    now = datetime.datetime.utcnow()
+    elapsed = 0
+
+    # Put this in an initialization function
+    num_days = {}
+    for month in range(1, now.month+1):
+        if (month == 1 or month == 3 or month == 5 or month == 7
+                or month == 8 or month == 10 or month == 12):
+            num_days[month] = 31
+        elif month == 4 or month == 6 or month == 9 or month == 11:
+            num_days[month] = 30
+        elif month == 2:
+            if now.year % 400 == 0:
+                num_days[month] = 29
+            elif now.year % 100 == 0:
+                num_days[month] = 28
+            elif now.year % 4 == 0:
+                num_days[month] = 29
+            else:
+                num_days[month] = 28
+
+    for month in range(1, now.month+1):
+        elapsed += num_days[month] * 86400
+
+    return elapsed
+
 # TEST ISS TLE
-line1 = "1 25544U 98067A   19008.04344106  .00001791  00000-0  34727-4 0  9995"
-line2 = "2 25544  51.6421  77.8266 0002386 253.7712 175.9272 15.53746625150376"
+line1 = "1 25544U 98067A   19013.88344907  .00000279  00000-0  11564-4 0  9996"
+line2 = "2 25544  51.6426  48.7320 0002418 284.9996  72.4992 15.53758087151270"
 calc_SV([line1, line2])
