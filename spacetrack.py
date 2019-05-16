@@ -29,6 +29,7 @@ def get_tle_data():
     output = output.split('\n')
     output = output[:-1]
 
+    '''
     # connect to database
     conn = sqlite3.connect('./static/data/tle.db')
     c = conn.cursor()
@@ -53,6 +54,7 @@ def get_tle_data():
         print(itl_desig + '\t\t[{:.2f}%]'.format(perc_done))
 
     conn.close()
+    '''
 
 if __name__ == '__main__':
     get_tle_data()

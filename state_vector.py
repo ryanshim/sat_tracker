@@ -5,7 +5,7 @@ State Vectors" by Rene Schwarz
 """
 import math
 import numpy as np
-import time
+import datetime
 
 from sgp4.earth_gravity import wgs72
 from sgp4.io import twoline2rv
@@ -26,19 +26,22 @@ def calc_SV(tle):
     mean_anomaly = math.radians(float(tle[1][43:52]))   # rad 
     mean_motion = float(tle[1][52:63])                  # rev/day
 
+    print(tle[0][18:33])
+
+    '''
     # Calc semi-major axis, a in meters
     mean_motion = mean_motion * (2 * np.pi / 86400) # convert from rev/day to rad/s
     a = (math.pow(STDGRAV, (1/3))) / (math.pow(mean_motion, (2/3)))
+    '''
 
     # Get delta t
-    delta_t = get_delta_t()
-    print(delta_t)
+    get_delta_t(tle[0][18:20], tle[0][20:33])
 
+    '''
     # Calc mean anomaly
     MA = calc_MA(mean_anomaly, a, 0)
     print("MEAN ANOMALY: {}".format(MA))
 
-    '''
     # Calc eccentric anomaly, EA using Newton's method
     EA = calc_EA(eccentricity, MA, 1.0e-8)
     print("ECCENTRIC ANOMALY: {}".format(EA))
@@ -175,7 +178,8 @@ def calc_vectors(h, e, RA, i, w, TA):
     return [r, v]
 
 def get_delta_t(epoch_yr, epoch_day):
-    t_final = time.time() # unix epoch; leap seconds already subtracted
+    #t_final = datetime.datetime.time()
+    print(epoch_yr, epoch_day)
 
 
 
