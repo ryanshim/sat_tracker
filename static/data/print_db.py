@@ -13,7 +13,7 @@ for row in c.execute('SELECT * FROM tles'):
     count += 1
 '''
 
-for row in c.execute("SELECT * FROM tles where itl_desig = '98067A'"):
+for row in c.execute("SELECT * FROM tles where satnum = '25544U'"):
     print(row)
 
 print(count)
