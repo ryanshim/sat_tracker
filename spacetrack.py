@@ -29,7 +29,6 @@ def get_tle_data():
     output = output.split('\n')
     output = output[:-1]
 
-    '''
     # connect to database
     conn = sqlite3.connect('./static/data/tle.db')
     c = conn.cursor()
@@ -40,10 +39,10 @@ def get_tle_data():
 
     # extract int'l designator and insert into database
     for i in range(0, len(output), 2):
-        itl_desig = output[i][9:17].rstrip()
+        sat_num = output[i][2:8].lstrip()
         line1 = output[i]
         line2 = output[i+1]
-        row = (itl_desig, line1, line2)
+        row = (sat_num, line1, line2)
 
         c.execute('INSERT INTO tles VALUES (?,?,?)', row)
         conn.commit()
@@ -51,10 +50,9 @@ def get_tle_data():
         perc_done = (i / len(output)) * 100
 
         # print the status
-        print(itl_desig + '\t\t[{:.2f}%]'.format(perc_done))
+        print(sat_num + '\t\t[{:.2f}%]'.format(perc_done))
 
     conn.close()
-    '''
 
 if __name__ == '__main__':
     get_tle_data()

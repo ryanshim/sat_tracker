@@ -35,20 +35,20 @@
 /************/
 /* CLASS ID */
 /************/
-#intl_desig_form {
+#satnum_form {
     color:White;
     background-color:#333333;
     border-color:#555555;
     box-shadow:white;
 }
 
-#intl_desig_btn {
+#satnum_btn {
     color:White;
     background-color:#333333;
     border-color:#555555;
 }
 
-#intl_desig_lbl {
+#satnum_lbl {
     color:White;
 }
 

@@ -43,32 +43,32 @@
 
               <!-- Intl Desig Input Header -->
               <div class="col-md-2">
-                  <div class="pull-left" id="intl_desig_lbl">Search by International Designator:</div>
+                  <div class="pull-left" id="satnum_lbl">Search by satellite number:</div>
               </div>
 
               <!-- Intl Desig Input -->
               <div class="col-md-2">
                   <form action="/track" method="POST">
-                      <input type="text" name="intl_desig_input" class="form-control" id="intl_desig_form" placeholder="Search for...">
+                      <input type="text" name="satnum_input" class="form-control" id="satnum_form" placeholder="Search for...">
                   </form>
               </div>
 
               <!-- Track Button -->
               <div class="col-md-2">
                    <form action="/track" method="POST">
-                      <button class="btn btn-default" type="submit" id="intl_desig_btn">Go!</button>
+                      <button class="btn btn-default" type="submit" id="satnum_btn">Go!</button>
                    </form>             
               </div>
 
           <!-- TLE Data -->
               <div class="col-md-6">
                   <div class="col-md-4 text-right">
-                      INTERNATIONAL DESIGNATOR:<br>
+                      SATELLITE NUMBER:<br>
                       LINE 1:<br>
                       LINE 2:<br>
                   </div>
                   <div class="col-md-8">
-                      {{ intl_desig }}<br>
+                      {{ sat_num }}<br>
                       {{ tle_l1 }}<br>
                       {{ tle_l2 }}<br>
                   </div>

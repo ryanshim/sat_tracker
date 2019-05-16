@@ -21,22 +21,23 @@ def homepage():
 
 # Handle Intl Designator Search
 # TODO: Fix the tle entries in the db that don't have an intl desig.'
-#       It's breaking the code.
+#       It's breaking the code. Some TLE entries don't have an intl design.
+#       so we need to use the satellite number instead.
 @app.route('/track', methods=['GET','POST'])
 def intl_desig_search():
     if request.method == 'POST':
-        desig = request.form.get('intl_desig_input')
+        satnum = request.form.get('satnum_input')
         l1 = ""
         l2 = ""
 
         # Convert any alpha chars to upper
-        desig = upper_char(desig)
+        satnum = upper_char(satnum)
 
         # Search for satellite in db by international designator
         conn = sqlite3.connect('./static/data/tle.db')
         c = conn.cursor()
         try:
-            query = "SELECT * FROM tles WHERE itl_desig = '" + desig + "'"
+            query = "SELECT * FROM tles WHERE satnum = '" + satnum + "'"
             for row in c.execute(query):
                 l1 = row[1]
                 l2 = row[2]
@@ -48,11 +49,11 @@ def intl_desig_search():
         # Strip the carriage return
         l1 = l1[:-1]
         l2 = l2[:-1]
-        tle_data = [desig, l1, l2]
+        tle_data = [satnum, l1, l2]
 
         return render_template('main.html',
                 title = 'TRACKING',
-                intl_desig = desig,
+                sat_num = satnum,
                 tle_l1 = l1,
                 tle_l2 = l2)
 
